@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { singlepageapi } from "../Api/Userapi";
 import Loading from "../Main/Loading";
 import Buyernav from "./Common/Buyernav";
+import BookingModal from "./Selectlocation";
 
 
 function Singlepage() {
@@ -12,12 +13,15 @@ function Singlepage() {
   console.log(carId, "--------------");
 
   const [single, setSingle] = useState(null);
-
+  const [showModal, setShowModal] = useState(false);
+  
   const singlepage = async () => {
+    setLoading(true)
     try {
       
       const res = await singlepageapi(carId);
       if (res.status === 200) {
+        setLoading(false)
         setSingle(res?.data);
         console.log(single, "++++++++++++++");
       } else {
@@ -32,39 +36,68 @@ function Singlepage() {
     singlepage();
   }, []);
 
+
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+ 
+
   return (
     <>
-    <Buyernav/>
-    {loading ? (
+      <Buyernav />
+      {loading ? (
         <Loading />
       ) : (
-      <div>
-        <div className="hero min-h-screen  bg-black">
-          <div className="hero-content flex flex-col lg:flex-row">
-            <img
-              src=
-              {single?.carimage1}
-              
-              className="max-w-md rounded-lg shadow-2xl"
-              alt="car"
-            />
-            <div>
-              <h1 className="text-5xl mb-4 font-bold text-white">{single?.carname}</h1>
-              <h1 className="text-5xl  mb-4 font-bold text-white">${single?.price}/day</h1>
-              <h1 className="text-2xl font-bold text-white">Owner name:{single?.partner.user.username}</h1>
-              <h1 className="text-2xl font-bold text-white">Location:{single?.location}</h1>
-              <h1 className="text-2xl font-bold text-white">phone number of {single?.partner.user.phone_number}</h1>
-
-              <p className="py-6  text-slate-600">
-                Provident cupiditate voluptatem et in. Quaerat fugiat ut
-                assumenda excepturi exercitationem quasi. In deleniti eaque aut
-                repudiandae et a id nisi.
-              </p>
-              <button className="btn btn-primary">Booking</button>
+        <div>
+          <div className="hero min-h-screen bg-black">
+            <div className="hero-content flex flex-col md:flex-row lg:flex-row">
+              <img
+                src={`http://localhost:8000${single?.carimage1}`}
+                className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 rounded-lg shadow-2xl"
+                alt="car"
+              />
+              <div className="flex flex-col md:flex-row lg:flex-row md:space-x-4 lg:space-x-4 md:w-full lg:w-2/3">
+                <div className="w-full md:w-1/2 lg:w-1/2">
+                  <h1 className="text-5xl mb-4 font-bold text-white">
+                    {single?.carname}
+                  </h1>
+                  <h1 className="text-5xl mb-4 font-bold text-white">
+                    ${single?.price}/day
+                  </h1>
+                  <h1 className="text-2xl font-bold text-white">
+                    Owner name: {single?.partner.user.username}
+                  </h1>
+                  <h1 className="text-2xl font-bold text-white">
+                    Location: {single?.location}
+                  </h1>
+                  <h1 className="text-2xl font-bold text-white">
+                    Phone number of {single?.partner.user.phone_number}
+                  </h1>
+                  <p className="py-6 text-slate-600">
+                    Provident cupiditate voluptatem et in. Quaerat fugiat ut
+                    assumenda excepturi exercitationem quasi. In deleniti eaque
+                    aut repudiandae et a id nisi.
+                  </p>
+                  <button
+                    className="btn btn-primary"
+                    onClick={openModal}
+                  >
+                    Booking
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>)}
+      )}
+
+      {showModal && <BookingModal onClose={closeModal} carId={single} />}
     </>
   );
 }

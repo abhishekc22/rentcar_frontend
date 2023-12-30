@@ -28,3 +28,18 @@ export const Addcarapi = async (formData, partner_id) => {
 
 
 }
+
+export const partnerprofileget=async(partner_id)=>{
+    console.log(partner_id,'====================')
+    const data= await  axios. get(`partnerside/partner_get/${partner_id}`)
+    return data;
+}
+
+
+export const partnerprofileput = async (formData, partner_id) => {   
+    for (var pair of formData.entries()) {
+    console.log(pair[0] + ', ' + pair[1],'--------------');
+    }
+    const data= await axios.put(`partnerside/partner_get/${partner_id}/`,formData);
+    return data ;
+}

@@ -8,13 +8,7 @@ export const Carvalidation = yup.object().shape({
     .matches(/^[a-zA-Z]+$/, "Only alphabets are allowed")
     .required("Car name is required"),
 
-  location: yup
-    .string()
-    .min(2, "Location must be at least 2 characters")
-    .max(20)
-    .matches(/^[a-zA-Z]+$/, "Only alphabets are allowed")
-    .required("Location is required"),
-
+  location: yup.string().required("Location is required"),
   price: yup.number()
     .typeError("Price must be a number")
     .positive("Price must be a positive number")

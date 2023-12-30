@@ -52,6 +52,7 @@ function Buyerprofile() {
       const res = await userprofileeditput(formData, user_id);
       console.log(formData, "----------------------------");
       if (res?.status === 200) {
+        console.log(res.data,'////////////////////////////')
         setBuyer_image(res?.buyer?.buyer_image);
         console.log(buyer_image,'******************')
         toast.success("updated succesfully", { theme: "dark" });
@@ -121,12 +122,12 @@ function Buyerprofile() {
                 <div className="w-full lg:w-2/4 flex items-center justify-center bg-no-repeat bg-cover bg-center">
                   <label htmlFor="fileInput" className="cursor-pointer">
                     <img
-                      src={userdetail?.buyer_image}
+                      src={`http://localhost:8000/${userdetail?.buyer_image}`}
                       alt="User Profile"
-                      onClick={() =>
-                        document.getElementById("fileInput").click()
-                      } // Trigger file input click on image click
-                      style={{ cursor: "pointer" }}
+                      // onClick={() =>
+                      //   document.getElementById("fileInput").click()
+                      // } // Trigger file input click on image click
+                      // style={{ cursor: "pointer" }}
                     />
                   </label>
                   <input

@@ -11,6 +11,14 @@ export const userloginapi=async(logindata,)=>{
     const data=await axios.post('/api/Buyerlogin-api/',logindata)
     return data    
 }
+export const  googleapi=async (d )=>{
+    const data=await axios.post('/api/buyer_google/',d)
+    console.log(data,'---------------------------------------------')
+    return data
+}
+
+
+
 
 export const userprofileeditput = async (formData,id) => {
         for (var pair of formData.entries()) {
@@ -35,5 +43,11 @@ export  const carlistuserapi=async ()=>{
 export const singlepageapi=async(carId)=>{
     console.log(carId,'888888888')
     const data= await axios.get(`buyerside/singlepage/${carId}`)
+    return data
+}
+
+export const  slectingcarapi=async(pickupdate, returndate, carId)=>{
+    console.log(pickupdate,carId,'**************')
+    const data= await axios.post('buyerside/booking/', {pickupdate, returndate,carId});
     return data
 }

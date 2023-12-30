@@ -5,7 +5,6 @@ import Loading from "../../Main/Loading";
 import "react-toastify/dist/ReactToastify.css";
 import { carlist } from "../../Api/Adminapi";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { verify } from "../../Api/Adminapi";
 
 function Carlist() {

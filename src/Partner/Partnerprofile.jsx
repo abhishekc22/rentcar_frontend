@@ -1,38 +1,99 @@
-import React, { useState } from 'react';
-import { useFormik } from 'formik';
-import Loading from '../Main/Loading';
+import React, { useEffect, useState } from "react";
+import { useFormik } from "formik";
+import Loading from "../Main/Loading";
+import { partnerprofieedit } from "./Validation/Partneredit";
+import { useSelector } from "react-redux";
+import { partnerprofileget } from "../Api/Partnerapi";
+import Partnernav from "./Common/Partnernav";
+import { partnerprofileput } from "../Api/Partnerapi";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 function Partnerprofile() {
+  const partner_id = useSelector((state) => state.PartnerReducer.partner);
+  console.log(partner_id, "*************");
+
   const [loading, setLoading] = useState(false);
+  const [profiledata, setprofiledata] = useState("");
+  const [partner_image, setPartner_image] = useState(false);
+  const [render,setRender] = useState(false)
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: {
+        username: profiledata?.user?.username,
+        email: profiledata?.email,
+        phone_number: profiledata?.phone_number,
+      },
+      validationSchema: partnerprofieedit,
+      onSubmit,
+      enableReinitialize: true,
+    });
+  async function onSubmit() {
+    try {
+      const formData = new FormData();
+      Object.entries(values).forEach(([key, value]) => {
+        console.log(value, "00000070000");
+        formData.append(key, value);
+        console.log(value, "88888888");
+      });
+      if (partner_image) {
+        formData.append("partner_image ", partner_image);
+      }
 
-  // Assuming userdetail is defined somewhere in your component or props
-  const userdetail = {
-    user: {
-      username: 'exampleUsername',
-    },
-    email: 'example@email.com',
-    phone_number: '1234567890',
+      if (partner_id) {
+        formData.append("partner_id ", partner_id);
+      }
+      console.log(formData, "-------------->>>>");
+      const res = await partnerprofileput(formData, partner_id);
+      if (res?.status === 201) {
+        if(render===true){
+          setRender(false)
+        }else{
+          setRender(true)
+
+        }
+        
+        console.log(res.data, ".....................");
+        toast.success("updated succesfully", { theme: "dark" });
+      } else {
+        toast.success("not completed", { theme: "dark" });
+      }
+    } catch (errors) {
+      toast.error("server error", { theme: "dark" });
+    }
+  }
+
+  useEffect(() => {
+    setLoading(true);
+    partnerprofileget(partner_id)
+      .then((response) => {
+        setprofiledata(response?.data);
+        setLoading(false);
+        console.log(response?.data, "------852--------");
+        console.log(profiledata?.email, "00000000000000000000");
+  
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }, [render]);
+
+
+
+  const handleimage = (e) => {
+    try{
+      const partner_image = e.target.files[0];
+      console.log(partner_image,'==================ewew')
+      setPartner_image(partner_image);
+      console.log(partner_image, "22222222222222222");
+  }catch{
+    toast.error("photo is not updated", { theme: "dark" });
+  }
   };
-
-  const handleimage1 = (event) => {
-    // Implement your logic for handling file input
-  };
-
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
-    initialValues: {
-      username: userdetail?.user?.username || '',
-      email: userdetail?.email || '',
-      phone_number: userdetail?.phone_number || '',
-    },
-    // Implement your validation schema if needed
-    onSubmit: (values) => {
-      // Implement your logic for form submission
-      console.log(values);
-    },
-  });
 
   return (
     <>
+      <Partnernav />
       {loading ? (
         <div className="fixed inset-0 flex items-center justify-center">
           <div className="spinnerouter">
@@ -40,19 +101,30 @@ function Partnerprofile() {
           </div>
         </div>
       ) : (
-        <div className="min-h-screen text-black pt-32" style={{ backgroundImage: "linear-gradient(115deg, #020024, #9e8e76 )" }}>
+        <div
+          className="min-h-screen text-black pt-32"
+          style={{
+            backgroundImage: "linear-gradient(115deg, #020024, #9e8e76 )",
+          }}
+        >
           <div className="container flex">
             <form onSubmit={handleSubmit}>
               <div className="w-full lg:w-10/12 flex flex-col lg:flex-row bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
                 <div className="w-full lg:w-2/4 flex items-center justify-center bg-no-repeat bg-cover bg-center">
                   <label htmlFor="fileInput" className="cursor-pointer">
-                    <img src='' alt="User Profile" />
+                    <img
+                      src={`http://localhost:8000/${
+                        profiledata?.partner_image ||
+                        "/src/assets/images/profile.jpg"
+                      }`}
+                      alt="User Profile"
+                    />
                   </label>
                   <input
                     type="file"
                     accept=".jpg, .jpeg, .png"
-                    onChange={handleimage1}
                     id="fileInput"
+                    onChange={handleimage}
                     style={{ display: "none" }}
                   />
                   <h1 className="text-white text-3xl mb-3">.</h1>
@@ -64,6 +136,7 @@ function Partnerprofile() {
                     <input
                       type="text"
                       name="username"
+                      placeholder="username"
                       value={values.username}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -85,7 +158,7 @@ function Partnerprofile() {
                   </div>
                   <div className="mb-4">
                     <input
-                      type="tel" // Use "tel" for phone numbers
+                      type="tel"
                       name="phone_number"
                       placeholder="phone_number"
                       value={values.phone_number}
@@ -115,5 +188,4 @@ function Partnerprofile() {
     </>
   );
 }
-
 export default Partnerprofile;
