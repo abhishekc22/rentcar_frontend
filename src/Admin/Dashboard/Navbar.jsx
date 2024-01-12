@@ -38,30 +38,14 @@ function  Navbar() {
         <ul
           tabIndex={0}
           className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-          <li>
-            <a>Home</a>
-          </li>
-          <li>
-            <a>about</a>
-          </li>
-          <li>
-            <a>contact</a>
-          </li>
+           <h1 className=" text-3xl  font-black"> Admin side</h1>
         </ul>
       </div>
-      <a className=" font-bold  mx-4 text-xl">car way</a>
+      <a className=" font-bold  mx-4 text-2xl">car way</a>
     </div>
     <div className="navbar-center hidden lg:flex">
       <ul className="menu menu-horizontal px-1">
-        <li>
-        <a>Home</a>
-        </li>
-        <li>
-          <a>about</a>
-        </li>
-        <li>
-          <a>contact</a>
-        </li>
+        <h1 className=" text-3xl  font-black"> Admin side</h1>
       </ul>
     </div>
     <div className="navbar-end">

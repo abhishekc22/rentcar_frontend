@@ -1,9 +1,9 @@
 import { useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useMemo, useState } from "react";
-const api_key = import.meta.env.VITE_APP_API_KEY
-console.log(api_key,"_________________")
+
 
 const useGoogleMapApi = () => {
+  const api_key = import.meta.env.VITE_APP_API_KEY
   const libraries = useMemo(() => ['places'], []);
   const [isLoaded, setIsLoaded] = useState(false);
 

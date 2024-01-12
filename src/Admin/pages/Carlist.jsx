@@ -6,20 +6,28 @@ import "react-toastify/dist/ReactToastify.css";
 import { carlist } from "../../Api/Adminapi";
 import { toast } from "react-toastify";
 import { verify } from "../../Api/Adminapi";
+import _debounce from "lodash/debounce";
+import { cardetailsapi } from "../../Api/Adminapi";
 
 function Carlist() {
   const [loading, setLoading] = useState(false);
   const [car, setCar] = useState([]);
-  const [block, setblock] = useState(false);
-  
+  const [block, setBlock] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [carIdToVerify, setCarIdToVerify] = useState(null);
+  const [hoveredCarId, setHoveredCarId] = useState(null);
+  const [cardetails, setCardetails] = useState(null);
+
+  const debouncedSetHoveredCarId = _debounce((id) => setHoveredCarId(id), 600);
+
   const Carlist = async () => {
     try {
       const res = await carlist();
-      if (res.status == 200) {
-        setLoading(false);
+      if (res.status === 200) {
+        setLoading(true);
         setCar(res?.data);
-        console.log(res?.data,'*/*/*/');
-
+        setLoading(false);
+        console.log(res?.data, "*/*/*/");
       } else {
         toast.error("loading error", { theme: "dark" });
       }
@@ -33,20 +41,51 @@ function Carlist() {
     Carlist();
   }, [block]);
 
+  const handleVerification = async (carid) => {
+    setCarIdToVerify(carid);
+    setShowModal(true);
+  };
 
-  const handleverifiaction = async (carid) => {
+  const confirmVerification = async () => {
     try {
-      const res = await verify(carid);
-      if (res.status == 201) {
-        console.log(res?.data)
-        setblock(res?.data);
-        toast.success("updated succesfully", { theme: "dark" });
-      } else {
-        toast.error("error", { theme: "dark" });
+      const res = await verify(carIdToVerify);
+      if (res.status === 201) {
+        setLoading(true);
+        console.log(res?.data);
+        setBlock(res?.data);
+        setLoading(false);
+        toast.success("updated successfully", { theme: "dark" });
+      }
+      if (res.status === 400) {
+        console.log(res.data, "-------------------");
+        toast.error(message, { theme: "dark" });
       }
     } catch (error) {
       toast.error("server error", { theme: "dark" });
       console.log(error.message);
+    } finally {
+      setShowModal(false);
+      setCarIdToVerify(null);
+    }
+  };
+
+  const cancelVerification = () => {
+    setShowModal(false);
+    setCarIdToVerify(null);
+  };
+
+  const handleCarDetails = async (carId) => {
+    try {
+      const res = await cardetailsapi(carId);
+      if (res.status === 200) {
+        setCardetails(res.data);
+        console.log(res.data, "----1------");
+      } else {
+        toast.error("Server error", { theme: "dark" });
+      }
+    } catch (error) {
+      console.error("Error fetching car details:", error);
+      toast.error("Error fetching car details", { theme: "dark" });
     }
   };
 
@@ -58,87 +97,148 @@ function Carlist() {
       ) : (
         <div className="flex">
           <Adminsidebar />
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
-            <table className="w-full text-sm text-left dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-white dark:bg-white dark:text-black border-b dark:border-black">
-                <tr>
-                  <th scope="col" className="px-6 py-3">
-                    partnername
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    carname
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    location
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    price
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    document
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    carimage1
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {car.map((data) => (
-                  <tr
-                    key={data.id}
-                    className="bg-white border-b dark:border-black"
-                  >
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium whitespace-nowrap dark:text-black"
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full ml-2">
+            {car.map((data) => (
+              <div
+                key={data.id}
+                className="bg-black border dark:border-gray-800 p-4 rounded-md"
+              >
+                <div className="font-medium dark:text-white">
+                  <span>Partner Name:</span> {data.partner.user.username}
+                </div>
+                <div className="font-medium dark:text-white">
+                  <span>Car Name:</span> {data.carname}
+                </div>
+                <div className="font-medium dark:text-white">
+                  <span>Location:</span> {data.location}
+                </div>
+                <div className="font-medium dark:text-white">
+                  <span>Price:</span> ${data.price}
+                </div>
+                <div className="py-4 relative">
+                  {hoveredCarId === data.id && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white">
+                      <span
+                        className="cursor-pointer"
+                        onClick={() => handleCarDetails(data.id)}
+                      >
+                        Car Detail
+                      </span>
+                    </div>
+                  )}
+                  <img
+                    src={data.carimage1}
+                    alt="Car Image 1"
+                    className="max-w-full max-h-36 object-cover rounded-md"
+                    onMouseEnter={() => debouncedSetHoveredCarId(data.id)}
+                    onMouseLeave={() => debouncedSetHoveredCarId(null)}
+                  />
+                </div>
+                <div className="py-4">
+                  {data.is_blocked === true ? (
+                    <button
+                      onClick={() => {
+                        handleVerification(data.id);
+                      }}
+                      className="w-full bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-full"
                     >
-                      {data.partner.user.username}
-                    </th>
-                    <td className="px-6 py-4 dark:text-black font-medium">
-                      {data.carname}
-                    </td>
-                    <td className="px-6 py-4 dark:text-black font-medium">
-                      {data.location}
-                    </td>
-                    <td className="px-6 py-4 dark:text-black font-medium">
-                      ${data.price}
-                    </td>
-                    <td className="px-6 py-4">
-                      {/* Assuming 'document' is a field with an image URL */}
-                      <img src={data.document} alt="document" />
-                    </td>
-                    <td className="px-6 py-4">
-                      {/* Assuming 'carimage1' is a field with an image URL */}
-                      <img src={data.carimage1} alt="Car Image 1" />
-                    </td>
-                    <td className="px-6 py-4">
-                      {data.is_blocked === true ? (
-                        <button
-                          onClick={() => {
-                            handleverifiaction(data.id);
-                          }}
-                          className="w-full lg:px-12 bg-gradient-to-r from-red-500 hover:from-white hover:to-black py-3 text-center border text-black border-black rounded-full sm:w-full "
-                        >
-                          UnList
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => {
-                            handleverifiaction(data.id);
-                          }}
-                          className="w-full lg:px-12 bg-gradient-to-r from-green-500  hover:to-black py-3 text-center border text-black border-black rounded-full sm:w-full "
-                        >
-                          List
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                      UnList
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        handleVerification(data.id);
+                      }}
+                      className="w-full bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-full"
+                    >
+                      List
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      {cardetails && (
+        <div className="fixed inset-0 z-50 overflow-hidden flex items-center justify-center">
+          <div className="bg-opacity-75 bg-black absolute inset-0"></div>
+          <div className="bg-white rounded-lg overflow-hidden z-50">
+            <div className="p-5">
+              <h2 className="text-3xl font-bold mb-2"> {cardetails.carname}</h2>
+
+              <div className="grid grid-cols-3 gap-4 mb-4">
+                <div>
+                  <p className="text-1xl font-bold ">Car Image:</p>
+                  <img
+                    src={cardetails.carimage1}
+                    alt="Car Image"
+                    className="max-w-full w-36 h-auto rounded-md"
+                  />
+                </div>
+                <div>
+                  <p className="text-1xl font-bold ">
+                    owner:{cardetails.partner.user.username}
+                  </p>
+                  <img
+                    src={cardetails.partner.partner_image}
+                    alt="Owner Image"
+                    className="max-w-full w-36 h-auto rounded-md"
+                  />
+                </div>
+                <div>
+                  <p className="text-1xl font-bold ">Car Document:</p>
+                  <img
+                    src={cardetails.document}
+                    alt="Car Document"
+                    className="max-w-full w-36 h-auto rounded-md"
+                  />
+                </div>
+              </div>
+              <div>
+                <p className=" font-bold text-1xl">Engine Type:</p>
+                <p>{cardetails.enginetype}</p>
+              </div>
+              <div>
+                <p className=" font-bold text-1xl">Location:</p>
+                <p>{cardetails.location}</p>
+              </div>
+
+              <div className="mt-4">
+                <button
+                  onClick={() => setCardetails(null)}
+                  className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-full"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {showModal && (
+        <div className="fixed inset-0 z-50 overflow-hidden flex items-center justify-center">
+          <div className="bg-opacity-75 bg-black absolute inset-0"></div>
+          <div className="bg-white rounded-lg overflow-hidden z-50">
+            <div className="p-5">
+              <p className="text-lg font-semibold mb-4">
+                Are you sure you want to proceed?
+              </p>
+              <div className="flex justify-end">
+                <button
+                  onClick={confirmVerification}
+                  className="mr-2 bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-full"
+                >
+                  Confirm
+                </button>
+                <button
+                  onClick={cancelVerification}
+                  className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-full"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

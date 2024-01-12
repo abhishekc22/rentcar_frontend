@@ -6,14 +6,13 @@ import { toast } from "react-toastify";
 
 function Buyernav() {
   const dispatch = useDispatch();
-  const navigate =useNavigate()
-  const handlelogout=()=>{
-    localStorage.removeItem("userToken")
+  const navigate = useNavigate();
+  const handlelogout = () => {
+    localStorage.removeItem("userToken");
     dispatch(userLogout());
     toast.success("logout successfully");
-    navigate("/")
-
-  }
+    navigate("/");
+  };
 
   return (
     <div className="navbar bg-black border-b border-slate-80">
@@ -37,18 +36,37 @@ function Buyernav() {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+          >
             <li>
-              <a className="font-bold  text-slate-600 text-2xl">Home</a>
+              <a>
+                <Link
+                  className="font-bold   text-white   text-2xl"
+                  to="/buyer/buyerhome/"
+                >
+                  Home{" "}
+                </Link>
+              </a>
             </li>
             <li>
-              <a ><Link className="font-bold" to='/buyer/profile/'>profile </Link></a>
+              <a>
+                <Link className="font-bold" to="/buyer/profile/">
+                  profile{" "}
+                </Link>
+              </a>
             </li>
             <li>
-              <a className="font-bold">my booking</a>
+              <a>
+                <Link
+                  className="font-bold  text-white   text-2xl"
+                  to="/buyer/buyerbooking/"
+                >
+                  my booking
+                </Link>
+              </a>
             </li>
             <li>
-              <a  className="font-bold ">contact</a>
+              <a className="font-bold ">contact</a>
             </li>
           </ul>
         </div>
@@ -57,32 +75,73 @@ function Buyernav() {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-          <a  className="font-bold  text-white   text-2xl">Home</a>
+            <a>
+              <Link
+                className="font-bold   text-white   text-2xl"
+                to="/buyer/buyerhome/"
+              >
+                Home{" "}
+              </Link>
+            </a>
           </li>
           <li>
-          <a ><Link className="font-bold   text-white   text-2xl" to='/buyer/profile/'>profile </Link></a>
+            <a>
+              <Link
+                className="font-bold   text-white   text-2xl"
+                to="/buyer/profile/"
+              >
+                profile{" "}
+              </Link>
+            </a>
           </li>
           <li>
-              <a className="font-bold  text-white   text-2xl">my booking</a>
-            </li>
-          <li>
-            <a className="font-bold   text-white    text-2xl">contact</a>
+            <a>
+              <Link
+                className="font-bold  text-white   text-2xl"
+                to="/buyer/buyerbooking/"
+              >
+                my booking
+              </Link>
+            </a>
           </li>
         </ul>
       </div>
+
       <div className="navbar-end">
-      <div className="dropdown dropdown-end">
-      <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-        <div className="w-10 rounded-full">
-          <img alt="Tailwind CSS Navbar component" src="/src/assets/images/logo.png" />
+        <div className="flex items-center">
+          <Link to="/buyer/buyerchat">
+            <img
+              src="/src/assets/images/chat.png"
+              alt="Chat Logo"
+              className="w-10 h-11 mr-28 py-1 mt-2"
+            />
+            <h1 className="text-gray-400">chat</h1>
+          </Link>
         </div>
-      </label>
-      <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-        <li  className=" px-12 cursor-pointer  text-black text-sm" onClick={handlelogout} >logout</li>
-      </ul> 
-    </div>
+
+        <div className="dropdown dropdown-end">
+          <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+            <div className="w-10 rounded-full">
+              <img
+                alt="Tailwind CSS Navbar component"
+                src="/src/assets/images/logo.png"
+              />
+            </div>
+          </label>
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li
+              className=" px-12 cursor-pointer  text-black text-sm"
+              onClick={handlelogout}
+            >
+              logout
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );
-};
-export default Buyernav
+}
+export default Buyernav;

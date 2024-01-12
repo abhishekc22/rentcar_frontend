@@ -9,6 +9,10 @@ import Singlepage from './Singlepage';
 import SelectLocation from './Selectlocation';
 import Checkout from './Checkout';
 import Google from './Google';
+import Payment from './Payment';
+import Bookindetails from './Bookindetails';
+import Buyerchat from './Buyerchat';
+import Chating from './Chating';
 
 
 
@@ -25,7 +29,10 @@ function Buyerrouter() {
         <Route path='/singlepage'element={<Buyerprivate><Singlepage/></Buyerprivate>}/>
         <Route path='/buyerlocation'element={<Buyerprivate><SelectLocation/></Buyerprivate>}/>
         <Route path='/checkout'element={<Buyerprivate><Checkout/></Buyerprivate>}/>
-
+        <Route path='/paymentsuccess'element={<Buyerprivate><Payment/></Buyerprivate>}/>
+        <Route path='/buyerbooking'element={<Buyerprivate><Bookindetails/></Buyerprivate>}/>
+        <Route path='/buyerchat'element={<Buyerprivate><Buyerchat/></Buyerprivate>}/>
+        <Route path='/chating' element={<Buyerprivate><Chating/></Buyerprivate>}/>
   
       </Routes>
     </>

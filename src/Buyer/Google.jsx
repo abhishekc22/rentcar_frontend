@@ -8,8 +8,8 @@ import { googleapi } from '../Api/Userapi';
 import { useDispatch } from 'react-redux';
 import { userlogin } from "../Reduxstore/slice/Userslice";
 
+
 function Google() {
-  const[email,SetEmail]=useState(null)
   const dispatch = useDispatch()
   const navigate = useNavigate();
 

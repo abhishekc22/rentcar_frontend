@@ -43,3 +43,25 @@ export const partnerprofileput = async (formData, partner_id) => {
     const data= await axios.put(`partnerside/partner_get/${partner_id}/`,formData);
     return data ;
 }
+
+export const partner_carapi = async (partner_id)=>{
+    console.log(partner_id,'------18------')
+    const  data =   await axios.get(`partnerside/partnercar/${partner_id}`)
+    console.log(data,'---------------------------20')
+    return data ;
+}
+
+export const partner_bookingapi=async(partner_id)=>{
+    console.log(partner_id,'=================================')
+    const data= await axios.get(`partnerside/partnerbookings/${partner_id}`)
+    console.log(data,'===============*============')
+    return data
+}
+
+
+export const getbuyer_api=async(partnerid)=>{
+    console.log(partnerid,'+++++++++++++++')
+    const data= await axios.get(`partnerside/buyerget/${partnerid}`)
+    console.log(data,'*************')
+    return data
+}

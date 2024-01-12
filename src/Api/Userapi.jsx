@@ -46,8 +46,38 @@ export const singlepageapi=async(carId)=>{
     return data
 }
 
-export const  slectingcarapi=async(pickupdate, returndate, carId)=>{
-    console.log(pickupdate,carId,'**************')
-    const data= await axios.post('buyerside/booking/', {pickupdate, returndate,carId});
+export const  slectingcarapi=async(pickupdate, returndate, carId,user_id)=>{
+    console.log(pickupdate,carId,returndate,user_id,'**************')
+    const data= await axios.post('buyerside/booking/', {pickupdate, returndate,carId,user_id});
+    console.log(data,'+++++++++++++++++++++++++++++')
+    return data
+}
+
+export const checkoutapi=async(pickupdate,returndate,total_amount,car_location,buyer_name)=>{
+    console.log(pickupdate,car_location,returndate,total_amount,buyer_name,'=============1===============')
+    const data= await axios.post('buyerside/payment/', {pickupdate, car_location,returndate,total_amount,buyer_name});
+    return data
+}
+
+
+export const boookingapi=async(pickupdate,returndate,total_amount,car_location,buyer_name)=>{
+    console.log(pickupdate,car_location,returndate,total_amount,buyer_name,'=============1===============')
+    const data= await axios.post('buyerside/bookingpayment/', {pickupdate, car_location,returndate,total_amount,buyer_name});
+    return data
+}
+
+
+
+export const get_bookdetails=async(user_id)=>{
+    const data= await axios.get(`buyerside/buyerbooking/${user_id}`)
+    console.log(data,'----------------------')
+    return data
+}
+
+
+export const geting_partnerapi=async(byer_id)=>{
+    console.log(byer_id,'_______________________+++++++++++++')
+    const data= await axios.get(`/buyerside/get_partner/${byer_id}`)
+    console.log(data,'*******************')
     return data
 }

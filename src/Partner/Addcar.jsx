@@ -67,6 +67,7 @@ function Addcar() {
         navigate("/partner/home");
       }
     } catch (error) {
+      setLoading(false);
       toast.error("server error", { theme: "dark" });
     }
   }
@@ -120,9 +121,9 @@ function Addcar() {
           </div>
         </div>
       ) : (
-        <div className="flex flex-row lg:flex-row">
+        <div className="flex flex-row lg:flex-row ">
           <Partnersidebar />
-          <div className="w-full lg:w-full py-16 px-4 lg:px-12 bg-blue-200">
+          <div className="w-full lg:w-full py-16 px-2 lg:px-12 bg-blue-200">
             <h1 className="text-4xl md:text-5xl mb-6 font-bold px-20">
               Add Car
             </h1>
@@ -144,7 +145,7 @@ function Addcar() {
               </div>
 
               <div className="mb-4">
-                <h1 className="font-serif text-xl md:text-2xl">Car name</h1>
+                <h1 className="font-serif text-xl md:text-2xl">Location</h1>
                 {isLoaded && (
                   <Autocomplete onLoad={handlePlaceSelect}>
                   <input

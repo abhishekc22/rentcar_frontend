@@ -124,10 +124,6 @@ function Buyerprofile() {
                     <img
                       src={`http://localhost:8000/${userdetail?.buyer_image}`}
                       alt="User Profile"
-                      // onClick={() =>
-                      //   document.getElementById("fileInput").click()
-                      // } // Trigger file input click on image click
-                      // style={{ cursor: "pointer" }}
                     />
                   </label>
                   <input

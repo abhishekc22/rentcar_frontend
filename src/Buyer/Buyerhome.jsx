@@ -7,19 +7,30 @@ import { carlistuserapi } from "../Api/Userapi";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import useGoogleMapApi from "../Map/Map";
-import { Autocomplete } from "@react-google-maps/api";
-
+import { Autocomplete, Data } from "@react-google-maps/api";
 
 export default function Buyerhome() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState([]);
   const { isLoaded } = useGoogleMapApi();
   const navigate = useNavigate();
+  console.log(user, "*****************");
+
+  // pagination
+  const [currentpage, setCuurentpage] = useState(1);
+  const recordpage = 6;
+  const last_index = currentpage * recordpage;
+  const first_index = last_index - recordpage;
+  const records = user.slice(first_index, last_index);
+  const npage = Math.ceil(user.length / recordpage); //get  the  number  of   pages
+  const numbers = [...Array(npage + 1).keys()].slice(1);
+  // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   const Usercarlist = async () => {
     try {
       setLoading(true);
       const res = await carlistuserapi();
+      console.log(res, "ttttttttttttyyyyyyyyyyyy888");
       setLoading(false);
       if (res.status === 200) {
         setUser(res?.data);
@@ -35,6 +46,22 @@ export default function Buyerhome() {
   useEffect(() => {
     Usercarlist();
   }, []);
+
+  function previospage() {
+    if (currentpage !== 1) {
+      setCuurentpage(currentpage - 1);
+    }
+  }
+
+  function nextpage() {
+    if (currentpage !== npage) {
+      setCuurentpage(currentpage + 1);
+    }
+  }
+
+  function change_page(id) {
+    setCuurentpage(id);
+  }
 
   return (
     <>
@@ -54,6 +81,47 @@ export default function Buyerhome() {
               ></div>
             </div>
             <div className="flex items-center w-full md:w-screen h-20 px-4 md:px-36 bg-black from-gray-900 to-gray-700">
+              <nav className="flex items-center justify-center mt-4">
+                <ul className="flex space-x-2">
+                  <li>
+                    <a
+                      onClick={previospage}
+                      className="px-3 py-1 rounded-md bg-gray-800 text-white"
+                    >
+                      Prev
+                    </a>
+                  </li>
+
+                  {numbers.map((n, i) => (
+                    <li
+                      className={`page-item ${
+                        currentpage === n ? "active" : ""
+                      }`}
+                      key={i}
+                    >
+                      <a
+                        onClick={() => change_page(n)}
+                        className={`px-3 py-1 rounded-md ${
+                          currentpage === n
+                            ? "bg-blue-500 text-white active"
+                            : "bg-gray-800 text-white"
+                        }`}
+                      >
+                        {n}
+                      </a>
+                    </li>
+                  ))}
+                  <li>
+                    <a
+                      onClick={nextpage}
+                      className="px-3 py-1 rounded-md bg-gray-800 text-white"
+                    >
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+
               <form method="GET" className="w-full md:w-1/2 lg:w-2/3 mx-auto">
                 <div className="relative text-gray-600 focus-within:text-gray-400">
                   <span className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -109,7 +177,7 @@ export default function Buyerhome() {
             {/* car card section */}
             <section className="mx-auto">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 px-4 md:px-10 lg:px-2 h-full bg-black">
-                {user.map((data) => (
+                {records.map((data) => (
                   <div
                     key={data.id}
                     className="relative h-full rounded-xl bg-gray-900"
@@ -124,10 +192,8 @@ export default function Buyerhome() {
                       src={data.carimage1}
                       alt="car"
                     />
-
                     <div className="text-white text-sm md:text-base lg:text-base w-full p-2 border-t border-gray-800 rounded-b bg-gray-900 absolute bottom-0">
                       <div className="font-bold"> Carname: {data.carname}</div>
-                      <div className="text-wrap"> Place: {data.location}</div>
                       <div> Price: ${data.price}</div>
                     </div>
                   </div>
@@ -137,6 +203,7 @@ export default function Buyerhome() {
           </div>
         </>
       )}
+          
     </>
   );
 }

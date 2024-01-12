@@ -1,27 +1,26 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { Link, useLocation } from "react-router-dom";
 import { singlepageapi } from "../Api/Userapi";
 import Loading from "../Main/Loading";
 import Buyernav from "./Common/Buyernav";
 import BookingModal from "./Selectlocation";
 
-
 function Singlepage() {
- const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const carId = location.state.car_id;
   console.log(carId, "--------------");
 
   const [single, setSingle] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  
+
   const singlepage = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      
       const res = await singlepageapi(carId);
       if (res.status === 200) {
-        setLoading(false)
+        setLoading(false);
         setSingle(res?.data);
         console.log(single, "++++++++++++++");
       } else {
@@ -36,17 +35,13 @@ function Singlepage() {
     singlepage();
   }, []);
 
-
-
   const openModal = () => {
     setShowModal(true);
   };
 
-
   const closeModal = () => {
     setShowModal(false);
   };
- 
 
   return (
     <>
@@ -59,7 +54,7 @@ function Singlepage() {
             <div className="hero-content flex flex-col md:flex-row lg:flex-row">
               <img
                 src={`http://localhost:8000${single?.carimage1}`}
-                className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 rounded-lg shadow-2xl"
+                className="w-96 md:w-full lg:w-6/12 h-auto"
                 alt="car"
               />
               <div className="flex flex-col md:flex-row lg:flex-row md:space-x-4 lg:space-x-4 md:w-full lg:w-2/3">
@@ -76,18 +71,12 @@ function Singlepage() {
                   <h1 className="text-2xl font-bold text-white">
                     Location: {single?.location}
                   </h1>
-                  <h1 className="text-2xl font-bold text-white">
-                    Phone number of {single?.partner.user.phone_number}
-                  </h1>
                   <p className="py-6 text-slate-600">
                     Provident cupiditate voluptatem et in. Quaerat fugiat ut
                     assumenda excepturi exercitationem quasi. In deleniti eaque
                     aut repudiandae et a id nisi.
                   </p>
-                  <button
-                    className="btn btn-primary"
-                    onClick={openModal}
-                  >
+                  <button className="btn btn-primary" onClick={openModal}>
                     Booking
                   </button>
                 </div>

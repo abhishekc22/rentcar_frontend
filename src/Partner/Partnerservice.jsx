@@ -9,7 +9,7 @@ function Partnerservice() {
     <>
       <Partnernav />
 
-      <div className='w-2/4 h-screen md:w-1/5 lg:w-1/5 bg-black text-white'>
+      <div className='w-3/4 h-screen md:w-3/5 lg:w-1/5 bg-black text-white'>
         <div className='px-4 md:px-10 py-2 md:py-11'>
           <p className='inline-block text-2xl md:text-2xl lg:text-2xl'><FontAwesomeIcon icon={faHome} />Dashboard</p>
         </div>
@@ -18,10 +18,10 @@ function Partnerservice() {
         </div>
         <div className='px-4 md:px-10 py-4 md:py-11'>
           
-          <p className='inline-block text-2xl md:text-3xl lg:text-2xl'><FontAwesomeIcon icon={faList} />Car List</p>
+          <p className='inline-block text-2xl md:text-3xl lg:text-2xl'><Link to='/partner/carlist'><FontAwesomeIcon icon={faList} />Car List</Link></p>
         </div>
         <div className='px-4 md:px-10 py-4 md:py-11'>
-          <p className='inline-block text-2xl md:text-3xl lg:text-2xl'>  <FontAwesomeIcon icon={faBook} />Booking List</p>
+          <p className='inline-block text-2xl md:text-3xl lg:text-2xl'><Link to='/partner/booking'> <FontAwesomeIcon icon={faBook} />Booking List</Link></p>
         </div>
       </div>
     </>

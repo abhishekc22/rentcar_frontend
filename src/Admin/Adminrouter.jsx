@@ -7,6 +7,7 @@ import Overviewdashboard from './Dashboard/Overviewdashboard';
 import Admindashboard from './pages/Admindashboard';
 import Adminprivate from './pages/Adminprivate';
 import Carlist from './pages/Carlist';
+import Adminibooklist from './pages/Adminibooklist';
 
 
 function Adminrouter() {
@@ -19,6 +20,7 @@ function Adminrouter() {
         <Route path='userlist'element={<Adminprivate><Userlist/></Adminprivate>}/>
         <Route path='dashboard'element={<Adminprivate><Admindashboard/></Adminprivate>}/>
         <Route path='carlist'element={<Adminprivate><Carlist/></Adminprivate>}/> 
+        <Route path='booklist'element={<Adminprivate><Adminibooklist/></Adminprivate>}/>
     </Routes>
 
   )
