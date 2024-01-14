@@ -30,13 +30,15 @@ function Login() {
       setLoading(true);
       const res = await userloginapi(values);
       if (res?.status == 200) {
-        const { access, buyer_id } = res.data;
+        console.log(res.data,'-------------------+++++++++++++//')
+        const { access, buyer_id ,buyername} = res.data;
         localStorage.setItem("userToken", access);
-        console.log(access, buyer_id)
+        console.log(access, buyer_id,buyername,'==============')
         dispatch(
           userlogin({
             token: access,
             user: buyer_id,
+            buyername:buyername,
           })
         );
         toast.success(`Welcome ${res?.data?.buyername}`);

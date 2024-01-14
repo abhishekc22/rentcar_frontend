@@ -31,7 +31,6 @@ function Buyerprofile() {
       enableReinitialize: true,
     });
 
-
   async function onSubmit() {
     try {
       setLoading(true);
@@ -52,9 +51,9 @@ function Buyerprofile() {
       const res = await userprofileeditput(formData, user_id);
       console.log(formData, "----------------------------");
       if (res?.status === 200) {
-        console.log(res.data,'////////////////////////////')
+        console.log(res.data, "////////////////////////////");
         setBuyer_image(res?.buyer?.buyer_image);
-        console.log(buyer_image,'******************')
+        console.log(buyer_image, "******************");
         toast.success("updated succesfully", { theme: "dark" });
       }
       setLoading(false);
@@ -65,23 +64,18 @@ function Buyerprofile() {
     }
   }
 
-
-
-
   const handleimage1 = (e) => {
     try {
       setLoading(true);
       const buyerimage = e.target.files[0];
       setBuyer_image(buyerimage);
-      console.log(setBuyer_image,'----------*9*9*9-----------')
+      console.log(setBuyer_image, "----------*9*9*9-----------");
       setLoading(false);
     } catch (error) {
       setLoading(true);
       toast.error("server error", { theme: "dark" });
     }
   };
-
-
 
   useEffect(() => {
     setLoading(true);
@@ -97,12 +91,9 @@ function Buyerprofile() {
       });
   }, [buyer_image]);
 
-
-
-
   return (
     <>
-    <Buyernav/>
+      <Buyernav />
       {loading ? (
         <div className="fixed inset-0 flex items-center justify-center">
           <div className="spinnerouter">
@@ -122,7 +113,10 @@ function Buyerprofile() {
                 <div className="w-full lg:w-2/4 flex items-center justify-center bg-no-repeat bg-cover bg-center">
                   <label htmlFor="fileInput" className="cursor-pointer">
                     <img
-                      src={`http://localhost:8000/${userdetail?.buyer_image}`}
+                      src={`http://localhost:8000${
+                        userdetail?.buyer_image ||
+                        "src/assets/images/profile.jpg"
+                      }`}
                       alt="User Profile"
                     />
                   </label>

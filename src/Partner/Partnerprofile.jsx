@@ -16,7 +16,7 @@ function Partnerprofile() {
   const [loading, setLoading] = useState(false);
   const [profiledata, setprofiledata] = useState("");
   const [partner_image, setPartner_image] = useState(false);
-  const [render,setRender] = useState(false)
+  const [render, setRender] = useState(false);
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
@@ -46,13 +46,12 @@ function Partnerprofile() {
       console.log(formData, "-------------->>>>");
       const res = await partnerprofileput(formData, partner_id);
       if (res?.status === 201) {
-        if(render===true){
-          setRender(false)
-        }else{
-          setRender(true)
-
+        if (render === true) {
+          setRender(false);
+        } else {
+          setRender(true);
         }
-        
+
         console.log(res.data, ".....................");
         toast.success("updated succesfully", { theme: "dark" });
       } else {
@@ -71,24 +70,21 @@ function Partnerprofile() {
         setLoading(false);
         console.log(response?.data, "------852--------");
         console.log(profiledata?.email, "00000000000000000000");
-  
       })
       .catch((error) => {
         console.log(error.message);
       });
   }, [render]);
 
-
-
   const handleimage = (e) => {
-    try{
+    try {
       const partner_image = e.target.files[0];
-      console.log(partner_image,'==================ewew')
+      console.log(partner_image, "==================ewew");
       setPartner_image(partner_image);
       console.log(partner_image, "22222222222222222");
-  }catch{
-    toast.error("photo is not updated", { theme: "dark" });
-  }
+    } catch {
+      toast.error("photo is not updated", { theme: "dark" });
+    }
   };
 
   return (
@@ -113,7 +109,7 @@ function Partnerprofile() {
                 <div className="w-full lg:w-2/4 flex items-center justify-center bg-no-repeat bg-cover bg-center">
                   <label htmlFor="fileInput" className="cursor-pointer">
                     <img
-                      src={`http://localhost:8000/${
+                      src={`http://localhost:8000${
                         profiledata?.partner_image ||
                         "/src/assets/images/profile.jpg"
                       }`}

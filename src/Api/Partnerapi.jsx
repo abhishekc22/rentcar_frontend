@@ -65,3 +65,15 @@ export const getbuyer_api=async(partnerid)=>{
     console.log(data,'*************')
     return data
 }
+
+export const cardeleteapi = async (deleteid) => {
+    try {
+      console.log(deleteid, '++++--++');
+      const data = await axios.delete(`partnerside/deletecar/${deleteid}`);
+      console.log(data, '6666666666666');
+      return data;
+    } catch (error) {
+      console.error("Error in car delete API:", error);
+      throw error; 
+    }
+  };

@@ -33,13 +33,14 @@ function PartnerLogin() {
       const res = await partnerloginapi({...values})
       console.log(res,'62626');
       if (res?.status==200){
-        const {access,partner,patrner_id}=res.data
+        const {access,partnername,patrner_id}=res.data
         
         localStorage.setItem("partnertoken",access);
         dispatch(
           partnerLogin({
             token:access,
             partner:patrner_id,
+            partnername:partnername,
 
           })
         );

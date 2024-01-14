@@ -17,6 +17,7 @@ function Partnerbooking() {
     partner_bookingapi(partner_id)
       .then((res) => {
         setDetails(res.data);
+        console.log(res.data,'----------------------')
         setLoading(false);
       })
       .catch((error) => {
@@ -61,7 +62,7 @@ function Partnerbooking() {
                         <th className="py-2 px-4 text-left">returndate</th>
                         <th className="py-2 px-4 text-left">status</th>
                         <th className="py-2 px-4 text-left">total_amount</th>
-                        {/* <th className="py-2 px-4 text-left">recived amount</th> */}
+                        <th className="py-2 px-4 text-left">update  status </th>
                         <th className="py-2 px-4 text-left">Details</th>
                       </tr>
                     </thead>
@@ -73,6 +74,7 @@ function Partnerbooking() {
                         >
                           <td className="py-2 px-4">{data.pickupdate}</td>
                           <td className="py-2 px-4">{data.returndate}</td>
+                          <td className="py-2 px-4">{data.status}</td>
                           <td className="py-2 px-4">{data.status}</td>
                           <td className="py-2 px-4">{data.total_amount}</td>
                           <td className="py-2 px-4">
@@ -97,5 +99,4 @@ function Partnerbooking() {
     </>
   );
 }
-
 export default Partnerbooking;

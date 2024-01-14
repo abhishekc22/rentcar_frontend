@@ -5,10 +5,15 @@ import Partnersidebar from "./Common/Partnersidebar";
 import { useSelector } from "react-redux";
 import { partner_carapi } from "../Api/Partnerapi";
 import { FaTrash, FaEye, FaEdit } from "react-icons/fa";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import { cardeleteapi } from "../Api/Partnerapi";
+
 
 function Partnercarlist() {
   const [loading, setLoading] = useState(false);
   const [carlist, setCarlist] = useState([]);
+  const[render,setRender]=useState(false)
   const partner_id = useSelector((state) => state.PartnerReducer.partner);
 
   useEffect(() => {
@@ -22,11 +27,31 @@ function Partnercarlist() {
         console.error("Error fetching car details: ", error);
         setLoading(false);
       });
-  }, [partner_id]);
+  }, [partner_id,render]);
+
 
   const handleDelete = (carId) => {
-    // Add logic to handle the deletion of the car with the given carId
-    console.log(`Delete car with ID: ${carId}`);
+  cardeleteapi(carId)
+    .then((response) => {
+      if (response.status === 201) {
+        if (render === true) {
+          setRender(false);
+        } else {
+          setRender(true);
+        }
+        toast.success("Car successfully deleted", { theme: "dark" });
+      } else if (response.status === 400) {
+        toast.error("Car not found", { theme: "dark" });
+      } else {
+        toast.error("Failed to delete car", { theme: "dark" });
+      }
+    })
+    .catch((error) => {
+      console.error("Error deleting car:", error);
+      toast.error("Car is booked in the future. Cannot delete ", { theme: "dark" });
+    });
+
+   
   };
 
   return (
@@ -67,8 +92,7 @@ function Partnercarlist() {
                               {/* Adjusted space-x-4 */}
                               <button
                                 onClick={() => handleDelete(car.id)}
-                                className="text-red-500 hover:text-red-700 focus:outline-none"
-                              >
+                                className="text-red-500 hover:text-red-700 focus:outline-none"                             >
                                 <FaTrash />
                               </button>
                               <button

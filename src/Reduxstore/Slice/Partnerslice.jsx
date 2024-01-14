@@ -4,17 +4,20 @@ const partnerSlice = createSlice({
   name:"partner",
   initialState:{
     token:"",
-    partner:null
+    partner:null,
+    partnername:null,
   },
   reducers:{
     partnerLogin:(state,action) => {
       state.token = action.payload.token
       state.partner = action.payload.partner
+      state.partnername=action.payload.partnername
     },
     partnerLogout:(state) => {
       state.partner = {
         token:"",
-        partner:null
+        partner:null,
+        partnername:null,
       }
     }
   }

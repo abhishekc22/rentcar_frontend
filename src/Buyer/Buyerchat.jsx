@@ -4,6 +4,7 @@ import Loading from "../Main/Loading";
 import Buyernav from "./Common/Buyernav";
 import { useSelector } from "react-redux";
 import { geting_partnerapi } from "../Api/Userapi";
+import defaultImage from "/src/assets/images/profile.jpg";
 
 function Buyerchat() {
   const byer_id = useSelector((state) => state.useReducer.user);
@@ -30,6 +31,9 @@ function Buyerchat() {
     userid(byer_id);
   }, []);
 
+
+
+
   return (
     <>
       {loading ? (
@@ -50,13 +54,13 @@ function Buyerchat() {
                         <button
                           key={data.id}
                           className="w-full text-left py-2 focus:outline-none focus-visible:bg-indigo-50"
-                          onClick={() => navigate("/buyer/chating", { state: { partnerId: data.id } })}
+                          onClick={() => navigate("/buyer/chating", { state: { partnerId:data.id,partnername:data.username }, })}
                         >
            
                           <div className="flex items-center">
                             <img
                               className="rounded-full items-start flex-shrink-0 mr-3"
-                              src={data.image_url}
+                              src={`http://localhost:8000${data.image_url || defaultImage}`}
                               width="32"
                               height="32"
                               alt={data.image_url}
