@@ -9,6 +9,11 @@ import { verify } from "../../Api/Adminapi";
 import _debounce from "lodash/debounce";
 import { cardetailsapi } from "../../Api/Adminapi";
 
+const extractPageNumberFromUrl = (url) => {
+  const match = url.match(/[\?&]page=(\d+)/);
+  return match ? parseInt(match[1], 10) : 1;
+};
+
 function Carlist() {
   const [loading, setLoading] = useState(false);
   const [car, setCar] = useState([]);
@@ -17,15 +22,21 @@ function Carlist() {
   const [carIdToVerify, setCarIdToVerify] = useState(null);
   const [hoveredCarId, setHoveredCarId] = useState(null);
   const [cardetails, setCardetails] = useState(null);
+  const [pagination, setPagination] = useState(null);
 
   const debouncedSetHoveredCarId = _debounce((id) => setHoveredCarId(id), 600);
 
-  const Carlist = async () => {
+  const Carlist = async (url) => {
     try {
-      const res = await carlist();
+      const res = await carlist(url);
       if (res.status === 200) {
         setLoading(true);
-        setCar(res?.data);
+        setCar(res?.data.results);
+        setPagination({
+          count: res.data.count,
+          next: res.data.next,
+          previous: res.data.previous,
+        });
         setLoading(false);
         console.log(res?.data, "*/*/*/");
       } else {
@@ -34,6 +45,21 @@ function Carlist() {
     } catch (error) {
       toast.error("server error");
       setLoading(false);
+    }
+  };
+
+  const handlePageChange = async (url) => {
+    try {
+      const pageNumber = extractPageNumberFromUrl(url);
+
+      if (!isNaN(pageNumber) && pageNumber > 0) {
+        const apiUrl = { page: pageNumber }; // Pass the page number as an object
+        await Carlist(apiUrl);
+      } else {
+        console.error("Invalid page number:", pageNumber);
+      }
+    } catch (error) {
+      console.error("Error while fetching the next page:", error);
     }
   };
 
@@ -97,7 +123,7 @@ function Carlist() {
       ) : (
         <div className="flex">
           <Adminsidebar />
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full ml-2">
+          <div className="  py-2 mt-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 gap-4 w-full ml-2">
             {car.map((data) => (
               <div
                 key={data.id}
@@ -242,6 +268,34 @@ function Carlist() {
           </div>
         </div>
       )}
+       <div className="w-full mt-4 flex justify-center">
+        {pagination && (
+          <nav className="block">
+            <ul className="flex pl-0 rounded list-none flex-wrap">
+              {pagination.previous && (
+                <li className="relative inline-block">
+                  <button
+                    onClick={() => handlePageChange(pagination.previous)}
+                    className="relative block py-2 px-3 leading-tight bg-black border border-gray-800 text-white font-bold border-r-0 ml-0 rounded-l hover:bg-green-500"
+                  >
+                    Previous
+                  </button>
+                </li>
+              )}
+              {pagination.next && (
+                <li className="relative inline-block">
+                  <button
+                    onClick={() => handlePageChange(pagination.next)}
+                    className="relative block py-2 px-3 leading-tight bg-black border border-gray-800 text-white border-l-0 rounded-r hover:bg-red-800"
+                  >
+                    Next
+                  </button>
+                </li>
+              )}
+            </ul>
+          </nav>
+        )}
+      </div>
     </>
   );
 }

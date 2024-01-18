@@ -41,15 +41,15 @@ function Userlist() {
   const handlePageChange = async (url) => {
     try {
       const pageNumber = extractPageNumberFromUrl(url);
-  
+
       if (!isNaN(pageNumber) && pageNumber > 0) {
-        const apiUrl = { page: pageNumber };  // Pass the page number as an object
+        const apiUrl = { page: pageNumber }; // Pass the page number as an object
         await Userlist(apiUrl);
       } else {
         console.error("Invalid page number:", pageNumber);
       }
     } catch (error) {
-      console.error("Error while fetching next page:", error);
+      console.error("Error while fetching the next page:", error);
     }
   };
 
@@ -68,6 +68,8 @@ function Userlist() {
     }
   };
 
+  
+
   useEffect(() => {
     Userlist();
   }, []);
@@ -78,15 +80,14 @@ function Userlist() {
       {loading ? (
         <Loading />
       ) : (
-        <div className="flex">
+        <div className="flex  lg:flex-row">
           <Adminsidebar />
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg px-2 py-2 w-full">
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg  px-2 py-2 w-full">
             <section className="bg-white dark:bg-gray-900">
               <div className="container px-6 py-10 mx-auto">
                 <h1 className="text-3xl font-semibold text-black capitalize lg:text-4xl dark:text-white">
-                  User List
+                  User List 
                 </h1>
-
                 <div className="w-full overflow-x-auto">
                   <table
                     className="w-full text-left border border-separate rounded border-slate-200"
