@@ -11,6 +11,7 @@ import { partnerloginSchema } from './Validation/Login';
 import "react-toastify/dist/ReactToastify.css";
 import { partnerLogin } from '../Reduxstore/Slice/Partnerslice';
 
+
 function PartnerLogin() {
   const [loading,setLoading]=useState(false);
   const dispatch=useDispatch();

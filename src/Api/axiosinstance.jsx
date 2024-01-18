@@ -11,14 +11,25 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
     (config)=>{
-        const token = localStorage.getItem('userToken')
-        console.log('>>>>>>>>>>>>>>>>>>>Token:', token);
-        if (token){
-      
-            config.headers['Authorization'] = `Bearer ${token}`;
+        const partnerToken = localStorage.getItem('partnertoken');
+        const adminToken = localStorage.getItem('adminToken');
+        const userToken = localStorage.getItem('userToken');
+    
+        // Include the appropriate token based on priority
+        if (partnerToken) {
+            console.log(partnerToken,'>>>>>>>>>>>>>>>>')
+          config.headers.Authorization = `Bearer ${partnerToken}`;
+        } else if (adminToken) {
+            console.log(adminToken,'>>>>>>>>>>>>>>>>')
+          config.headers.Authorization = `Bearer ${adminToken}`;
+        } else if (userToken) {
+            console.log(userToken,'>>>>>>>>>>>>>>>>')
+          config.headers.Authorization = `Bearer ${userToken}`;
         }
-        return config
-    },
+    
+        return config;
+      },
+        
     (error)=>{
         return Promise.reject(error)
     }

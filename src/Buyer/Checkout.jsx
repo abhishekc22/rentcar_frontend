@@ -36,16 +36,22 @@ function Checkout() {
     <div className=" min-h-screen bg-black">
     <div className=" h-96 flex items-center justify-center">
       <div className="text-white flex flex-row">
+        
         <img
-          src={`http://localhost:8000/${carimage}`}
+          src={carimage}
           alt="Car Image"
-          className="h-full w-82 max-w-md mr-36  border-white border-2"
+          className="h-full w-82 max-w-md mr-36  mt-10 border-white border-2"
         />
+       
+        <div>
+        <h1 className=" text-2xl">car document</h1>
         <img
-          src={`http://localhost:8000/${carimage}`}
+          src={carimage}
           alt="Document"
           className="h-full w-82 max-w-md  border-white border-2"
         />
+         </div>
+      
       </div>
     </div>
 

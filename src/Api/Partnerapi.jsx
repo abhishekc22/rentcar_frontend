@@ -77,3 +77,12 @@ export const cardeleteapi = async (deleteid) => {
       throw error; 
     }
   };
+
+
+
+  export const updateBookingStatusApi = async (selectedBooking, newStatus) => {
+    console.log(selectedBooking, newStatus, '--------+++++++++++++++');
+    const data = await axios.put(`partnerside/updating_status/${selectedBooking}/`, { status: newStatus });
+    console.log(data, '**************');
+    return data;
+};

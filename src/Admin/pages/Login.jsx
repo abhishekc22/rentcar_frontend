@@ -26,12 +26,13 @@ function Login() {
       setLoading(true)
       const res = await adminloginapi({...values})
       if (res?.status === 200){
-        const {access, admin} = res.data
+        const {access, admin_id,adminname} = res.data
+        console.log(access,'9999999922222222299999999')
         localStorage.setItem("adminToken",access)
         dispatch(
           adminlogin({
             token:access,
-            admin:admin,
+            admin:admin_id,
           })
         );
         toast.success(`Welcome ${res?.data?.adminname}`);

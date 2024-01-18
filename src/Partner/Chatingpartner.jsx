@@ -16,6 +16,7 @@ function Chatingpartner() {
 
   const location = useLocation();
   const { state } = location;
+  const lastMessageRef = useRef(null);
   const { buyerid, buyername } = state || {};
 
   const WsUrl = "ws://localhost:8000";
@@ -70,9 +71,14 @@ function Chatingpartner() {
   };
 
   useEffect(() => {
+    // 👇 scroll to bottom every time messages change
+    lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+  <div ref={lastMessageRef} />;
+
+  useEffect(() => {
     setUpChat();
   }, []);
-
 
   const onButtonClicked = () => {
     if (messageRef.current.value.trim() == "") {
@@ -126,6 +132,7 @@ function Chatingpartner() {
                         </div>
                       </div>
                     ))}
+                    <div ref={lastMessageRef} />
                   </div>
                 </div>
               </div>

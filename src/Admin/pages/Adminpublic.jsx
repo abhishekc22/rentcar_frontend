@@ -2,12 +2,12 @@ import React from 'react'
 import { Navigate } from 'react-router-dom'
 
 
-function Adminprivate(props) {
+function Adminpublic(props) {
     if(localStorage.getItem('adminToken')){
-      return props.children;
+      return  <Navigate to='/admin/overview'/>
     }else{
-     return <Navigate to='/admin/adminlogin'/>
+     return props.children;
     }
 }
 
-export default Adminprivate;
+export default Adminpublic;

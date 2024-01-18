@@ -13,6 +13,8 @@ import Payment from './Payment';
 import Bookindetails from './Bookindetails';
 import Buyerchat from './Buyerchat';
 import Chating from './Chating';
+import Buyerwallet from './Buyerwallet';
+import Buyerpublic from './Buyerpublic';
 
 
 
@@ -21,7 +23,10 @@ function Buyerrouter() {
     <>
     
       <Routes>
-        <Route path='/login' element={<Login/>} />
+
+        <Route path='/login' element={<Buyerpublic><Login/></Buyerpublic>} />
+
+
         <Route path='/googlelogin'element={<Google/>}/>
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/buyerhome'element={<Buyerprivate><Buyerhome/></Buyerprivate>}/>
@@ -33,7 +38,7 @@ function Buyerrouter() {
         <Route path='/buyerbooking'element={<Buyerprivate><Bookindetails/></Buyerprivate>}/>
         <Route path='/buyerchat'element={<Buyerprivate><Buyerchat/></Buyerprivate>}/>
         <Route path='/chating' element={<Buyerprivate><Chating/></Buyerprivate>}/>
-  
+        <Route path='/wallet'element= {<Buyerprivate><Buyerwallet/></Buyerprivate>}/>
       </Routes>
     </>
     

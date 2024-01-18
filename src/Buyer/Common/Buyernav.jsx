@@ -104,6 +104,16 @@ function Buyernav() {
               </Link>
             </a>
           </li>
+          <li>
+            <a>
+              <Link
+                className="font-bold  text-white   text-2xl"
+                to="/buyer/wallet/"
+              >
+                Wallet{" "}
+              </Link>
+            </a>
+          </li>
         </ul>
       </div>
 

@@ -5,7 +5,7 @@ const adminSlice=createSlice({
     name:'admin',
     initialState:{
         admin:null,
-        token:''
+        token:"",
     },
     reducers:{
         adminlogin:(state,action)=>{
@@ -13,8 +13,8 @@ const adminSlice=createSlice({
             state.token=action.payload.token
         },
         adminlogout:(state,action)=>{
-            state.admin=null
-            state.token=''
+            state.admin=null,
+            state.token=" "
         }
     }
 })

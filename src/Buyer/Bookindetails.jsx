@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Loading from "../Main/Loading";
 import Buyernav from "./Common/Buyernav";
-import { get_bookdetails } from "../Api/Userapi";
+import { get_bookdetails, cancelapi } from "../Api/Userapi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 function Bookindetails() {
   const user_id = useSelector((state) => state.useReducer.user);
@@ -25,15 +27,22 @@ function Bookindetails() {
       });
   }, [user_id]);
 
-  const handleCancel = (bookingId) => {
-    // Handle cancel logic here
-    console.log(`Cancel button clicked for booking ID ${bookingId}`);
+  const handleCancel = async (bookingId) => {
+    try {
+      const res = await cancelapi(bookingId);
+
+      if (res.status === 200) {
+        toast.success("You have canceled the order successfully");
+      } else {
+        toast.error("Server error");
+      }
+    } catch (error) {
+      toast.error("Server error");
+    }
   };
 
   const handleDetails = (id) => {
-    // Find the selected booking from the data array
     const selected = booked.find((data) => data.id === id);
-    // Update the state to show the details of the selected booking
     setSelectedBooking(selected);
   };
 
@@ -48,22 +57,38 @@ function Bookindetails() {
         </div>
       ) : (
         <div>
-          <section className="relative py-16 bg-blueGray-50">
+          <section className="relative py-8 bg-blueGray-50">
             <div className="w-full mb-12 px-4">
               {selectedBooking ? (
                 // Render details for the selected booking
-                <div className="w-1/2 bg-black py-10 px-10 ml-20" >
-                  <h3 className="font-semibold text-lg text-white">
-                    Booking details for ID {selectedBooking.id}
+                <div className="w-1/2 bg-black py-10 px-10 ml-20">
+                  <h3 className="font-semibold  text-2xl text-white">
+                    owner name: {selectedBooking.car.partner.user.username}
+                  </h3>
+                  <h3 className="font-semibold  text-2xl text-white">
+                    owner number:{" "}
+                    {selectedBooking.car.partner.user.phone_number}
                   </h3>
                   <img
                     src={selectedBooking.car.carimage1}
                     alt={selectedBooking.car.carname}
                     className="max-w-full mt-4 mb-4"
                   />
-                  <p>Car Name: {selectedBooking.car.carname}</p>
-                  <p>Location: {selectedBooking.car.location}</p>
-                  <p>Partner: {selectedBooking.car.partner.user.username}</p>
+                  <p className="text-2xl text-white">
+                    Car Name: {selectedBooking.car.carname}
+                  </p>
+                  <p className="text-2xl text-white">
+                    Location: {selectedBooking.car.location}
+                  </p>
+                  <p className="text-2xl text-white">
+                    Partner: {selectedBooking.car.price}
+                  </p>
+                  <p className="text-2xl text-white">
+                    Partner: {selectedBooking.car.enginetype}
+                  </p>
+                  <p className="text-2xl text-white">
+                    Partner: {selectedBooking.car.car_type}
+                  </p>
 
                   {/* Close button to go back to the table view */}
                   <button
@@ -111,12 +136,14 @@ function Bookindetails() {
                             <td className="py-2 px-4">{data.status}</td>
                             <td className="py-2 px-4">{data.total_amount}</td>
                             <td className="py-2 px-4">
-                              <button
-                                onClick={() => handleCancel(data.id)}
-                                className="bg-gray-500 hover:bg-red-700 text-black py-2 px-4 rounded-full transition duration-300 ease-in-out"
-                              >
-                                Cancel
-                              </button>
+                              {data.status === "reserved" && (
+                                <button
+                                  onClick={() => handleCancel(data.id)}
+                                  className="bg-gray-500 hover:bg-red-700 text-black py-2 px-4 rounded-full transition duration-300 ease-in-out"
+                                >
+                                  Cancel
+                                </button>
+                              )}
                             </td>
                             <td className="py-2 px-4">
                               <button

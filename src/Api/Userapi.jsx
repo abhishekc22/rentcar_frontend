@@ -17,6 +17,16 @@ export const  googleapi=async (d )=>{
     return data
 }
 
+export const cancelapi = async (booking_id) => {
+    console.log(booking_id,'------11---')
+    try {
+        const data = await axios.get(`buyerside/cancel_order/${booking_id}`);
+        return data;
+    } catch (error) {
+        console.error('Error in cancelapi:', error);
+        throw error;
+    }
+}
 
 
 
@@ -79,5 +89,13 @@ export const geting_partnerapi=async(byer_id)=>{
     console.log(byer_id,'_______________________+++++++++++++')
     const data= await axios.get(`/buyerside/get_partner/${byer_id}`)
     console.log(data,'*******************')
+    return data
+}
+
+
+export const buyer_walletapi=async(buyerid)=>{
+    console.log(buyerid,'*********')
+    const data = await axios.get(`/buyerside/wallet/${buyerid}`)
+    console.log(data,'-----------------------------')
     return data
 }

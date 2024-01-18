@@ -42,7 +42,7 @@ function Partnernav() {
             </li>
             <li>
               <a>
-                <Link className="  " to="/partner/service/">
+                <Link className="  " to="/partner/dashboard/">
                   Service{" "}
                 </Link>
               </a>

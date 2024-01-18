@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import axios from "../Api/Axiosinstance";
-import { Link } from 'react-router-dom'; 
+import { Link } from "react-router-dom";
 
 function Chating() {
   const { buyername, user } = useSelector((state) => state.useReducer);
@@ -16,6 +16,7 @@ function Chating() {
 
   const [clientstate, setClientState] = useState("");
   const [messages, setMessages] = useState([]);
+  const lastMessageRef = useRef(null);
 
   const messageRef = useRef();
 
@@ -71,6 +72,11 @@ function Chating() {
   };
 
   useEffect(() => {
+    // 👇 scroll to bottom every time messages change
+    lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  useEffect(() => {
     setUpChat();
   }, []);
 
@@ -112,7 +118,7 @@ function Chating() {
             <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl border-black bg-gray-100 h-full p-4">
               <div className="flex flex-col h-full overflow-x-auto mb-4">
                 <div className="flex flex-col h-full">
-                <div className="grid grid-cols-12 gap-y-2">
+                  <div className="grid grid-cols-12 gap-y-2">
                     {messages.map((message, index) => (
                       <div
                         key={index}
@@ -127,6 +133,7 @@ function Chating() {
                         </div>
                       </div>
                     ))}
+                    <div ref={lastMessageRef} />
                   </div>
                 </div>
               </div>

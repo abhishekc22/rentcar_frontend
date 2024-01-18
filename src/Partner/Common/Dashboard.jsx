@@ -1,23 +1,14 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHome,
-  faCar,
-  faList,
-  faBook,
-} from "@fortawesome/free-solid-svg-icons";
-import Partnernav from "./Common/Partnernav";
-import { Link } from "react-router-dom";
-import Partnersidebar from "./Common/Partnersidebar";
-import Dashboard from "./Common/Dashboard";
-import Partnerchart from "./Common/Partnerchart";
+import Partnernav from "./Partnernav";
+import Partnersidebar from "./Partnersidebar";
+import { Chart } from "chart.js";
+import Partnerchart from "./Partnerchart";
 
-function Partnerservice() {
+function Dashboard() {
   return (
     <>
       <Partnernav />
-      <div className="flex flex-row lg:flex-row ">
-     
+      <div className="flex flex-row lg:flex-row">
         <Partnersidebar />
         <div className="flex flex-col  px-14 w-8/12">
         
@@ -37,10 +28,9 @@ function Partnerservice() {
         </div>
           </div>
       </div>
-
     </>
   );
 }
-     
 
-export default Partnerservice;
+export default Dashboard;
+

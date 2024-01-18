@@ -113,10 +113,7 @@ function Buyerprofile() {
                 <div className="w-full lg:w-2/4 flex items-center justify-center bg-no-repeat bg-cover bg-center">
                   <label htmlFor="fileInput" className="cursor-pointer">
                     <img
-                      src={`http://localhost:8000${
-                        userdetail?.buyer_image ||
-                        "src/assets/images/profile.jpg"
-                      }`}
+                      src={userdetail?.buyer_image }
                       alt="User Profile"
                     />
                   </label>

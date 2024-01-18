@@ -17,7 +17,7 @@ function Buyerchat() {
     try {
       const res = await geting_partnerapi(byer_id);
       if (res.status === 200) {
-        console.log(res.data.partner_data, '=========852=======');
+        console.log(res.data.partner_data, "=========852=======");
         setPartner(res?.data?.partner_data);
       } else {
         console.log("not getting");
@@ -30,9 +30,6 @@ function Buyerchat() {
   useEffect(() => {
     userid(byer_id);
   }, []);
-
-
-
 
   return (
     <>
@@ -54,24 +51,39 @@ function Buyerchat() {
                         <button
                           key={data.id}
                           className="w-full text-left py-2 focus:outline-none focus-visible:bg-indigo-50"
-                          onClick={() => navigate("/buyer/chating", { state: { partnerId:data.id,partnername:data.username }, })}
+                          onClick={() =>
+                            navigate("/buyer/chating", {
+                              state: {
+                                partnerId: data.id,
+                                partnername: data.username,
+                              },
+                            })
+                          }
                         >
-           
                           <div className="flex items-center">
-                            <img
-                              className="rounded-full items-start flex-shrink-0 mr-3"
-                              src={`http://localhost:8000${data.image_url || defaultImage}`}
-                              width="32"
-                              height="32"
-                              alt={data.image_url}
-                            />
+                            {data.image_url ? (
+                              <img
+                                className="rounded-full items-start flex-shrink-0 mr-3"
+                                src={data.image_url}
+                                alt="Image"
+                                width="32"
+                                height="32"
+                              />
+                            ) : (
+                              <img
+                                className="rounded-full items-start flex-shrink-0 mr-3"
+                                src={defaultImage}
+                                alt="Default Image"
+                                width="32"
+                                height="32"
+                              />
+                            )}
+
                             <div>
                               <h4 className="text-sm font-semibold text-gray-900">
                                 {data.username}
                               </h4>
-                              <div className="text-[13px]">
-                                {data.username}
-                              </div>
+                              <div className="text-[13px]">{data.username}</div>
                             </div>
                           </div>
                         </button>

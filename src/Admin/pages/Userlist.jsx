@@ -6,17 +6,28 @@ import Loading from "../../Main/Loading";
 import { adminuserlist, blockUnblockUser } from "../../Api/Adminapi";
 import "react-toastify/dist/ReactToastify.css";
 
+const extractPageNumberFromUrl = (url) => {
+  const match = url.match(/[\?&]page=(\d+)/);
+  return match ? parseInt(match[1], 10) : 1;
+};
+
 function Userlist() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState([]);
+  const [pagination, setPagination] = useState(null);
 
-  const Userlist = async () => {
+  const Userlist = async (url) => {
     try {
       setLoading(true);
-      const res = await adminuserlist();
+      const res = await adminuserlist(url);
       if (res.status === 200) {
         setLoading(false);
-        setUser(res.data);
+        setUser(res.data.results);
+        setPagination({
+          count: res.data.count,
+          next: res.data.next,
+          previous: res.data.previous,
+        });
         console.log(res.data, "------2----");
       } else {
         toast.error("Loading error", { theme: "dark" });
@@ -27,13 +38,27 @@ function Userlist() {
     }
   };
 
+  const handlePageChange = async (url) => {
+    try {
+      const pageNumber = extractPageNumberFromUrl(url);
+  
+      if (!isNaN(pageNumber) && pageNumber > 0) {
+        const apiUrl = { page: pageNumber };  // Pass the page number as an object
+        await Userlist(apiUrl);
+      } else {
+        console.error("Invalid page number:", pageNumber);
+      }
+    } catch (error) {
+      console.error("Error while fetching next page:", error);
+    }
+  };
+
   const handleBlockUnblock = async (id) => {
     console.log(id, "----1--------");
     try {
-      const res = await blockUnblockUser(id); // Replace with your actual API function and endpoint
+      const res = await blockUnblockUser(id);
       if (res.status === 200) {
         toast.success("User blocked/unblocked successfully", { theme: "dark" });
-
         Userlist();
       } else {
         toast.error("Action failed", { theme: "dark" });
@@ -55,7 +80,7 @@ function Userlist() {
       ) : (
         <div className="flex">
           <Adminsidebar />
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg  px-2 py-2 w-full">
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg px-2 py-2 w-full">
             <section className="bg-white dark:bg-gray-900">
               <div className="container px-6 py-10 mx-auto">
                 <h1 className="text-3xl font-semibold text-black capitalize lg:text-4xl dark:text-white">
@@ -143,6 +168,36 @@ function Userlist() {
                     </tbody>
                   </table>
                 </div>
+                <div className="w-full mt-4 flex justify-center">
+                  {pagination && (
+                    <nav className="block">
+                      <ul className="flex pl-0 rounded list-none flex-wrap">
+                        {pagination.previous && (
+                          <li className="relative inline-block">
+                            <button
+                              onClick={() =>
+                                handlePageChange(pagination.previous)
+                              }
+                              className="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-blue-700 border-r-0 ml-0 rounded-l hover:bg-gray-200"
+                            >
+                              Previous
+                            </button>
+                          </li>
+                        )}
+                        {pagination.next && (
+                          <li className="relative inline-block">
+                            <button
+                              onClick={() => handlePageChange(pagination.next)}
+                              className="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-blue-700 border-l-0 rounded-r hover:bg-gray-200"
+                            >
+                              Next
+                            </button>
+                          </li>
+                        )}
+                      </ul>
+                    </nav>
+                  )}
+                </div>
               </div>
             </section>
           </div>
@@ -151,4 +206,5 @@ function Userlist() {
     </>
   );
 }
+
 export default Userlist;

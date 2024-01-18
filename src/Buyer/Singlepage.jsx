@@ -53,7 +53,7 @@ function Singlepage() {
           <div className="hero min-h-screen bg-black">
             <div className="hero-content flex flex-col md:flex-row lg:flex-row">
               <img
-                src={`http://localhost:8000${single?.carimage1}`}
+                src={single?.carimage1}
                 className="w-96 md:w-full lg:w-6/12 h-auto"
                 alt="car"
               />

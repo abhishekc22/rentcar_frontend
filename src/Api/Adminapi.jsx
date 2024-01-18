@@ -1,4 +1,4 @@
-import axios from "./Axiosinstance";
+import axios from "./Axiosinstance"
 
 
 export const adminloginapi=async(adminlogindata)=>{
@@ -8,11 +8,11 @@ export const adminloginapi=async(adminlogindata)=>{
     return data
 }
 
-export const adminuserlist=async()=>{
-    const data=await axios.get('/adminside/adminuserlist/')
-    return data
-}
-
+export const adminuserlist = async (params) => {
+    const data = await axios.get('/adminside/adminuserlist/', { params });
+    return data;
+  };
+  
 export const carlist = async () => {
    const data = await axios.get('/adminside/carlist/');
    console.log(data,'88888888888')
@@ -43,4 +43,12 @@ export const blockUnblockUser = async (id) => {
     console.log(id,'=============')
     const data = await axios.put(`/adminside/userblock/${id}/`);
     return data;
+}
+
+
+export const adminwallet_inf0=async (id)=>{
+    console.log(id,'++++++++++++++++++++')
+    const data= await axios.get(`adminside/admindash/${id}`)
+    console.log(data)
+    return data
 }

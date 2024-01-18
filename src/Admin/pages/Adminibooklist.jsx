@@ -42,8 +42,8 @@ function Adminibooklist() {
           <Adminsidebar />
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg px-2 py-2 w-full">
             <section className="bg-white dark:bg-gray-900">
-              <div className="container px-6 py-10 mx-auto">
-                <h1 className="text-3xl font-semibold text-black capitalize lg:text-4xl dark:text-white">
+              <div className="container px-6 py-1 mx-auto">
+                <h1 className="text-1xl font-semibold text-black capitalize lg:text-3xl dark:text-white">
                   Book List
                 </h1>
 
@@ -59,17 +59,18 @@ function Adminibooklist() {
                         {/* Display Buyer Image */}
                         <img
                           src={
-                            data?.buyer?.buyer_image ||
-                            "src/assets/images/Profile.jpg"
+                            data?.buyer?.buyer_image
+                              ? data.buyer.buyer_image
+                              : "/src/assets/images/profile.jpg"
                           }
                           alt="Buyer Image"
                           className="w-16 h-16 rounded-full mx-auto mb-2"
                         />
-
                         <img
                           src={
-                            data?.car?.partner?.partner_image ||
-                            "src/assets/images/profile.jpg"
+                            data.car.partner.partner_image
+                              ? data.car.partner.partner_image
+                              : "/src/assets/images/profile.jpg"
                           }
                           alt="Partner Image"
                           className="w-16 h-16 rounded-full mx-auto mb-2"

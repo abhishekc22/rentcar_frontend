@@ -8,12 +8,13 @@ import Admindashboard from './pages/Admindashboard';
 import Adminprivate from './pages/Adminprivate';
 import Carlist from './pages/Carlist';
 import Adminibooklist from './pages/Adminibooklist';
+import Adminpublic from './pages/Adminpublic';
 
 
 function Adminrouter() {
   return (
     <Routes>
-        <Route path='adminlogin' element={<Login/>}/>
+        <Route path='adminlogin' element={<Adminpublic><Login/></Adminpublic>}/>
 
         #pages in admin
         <Route path ='overview'element={<Adminprivate><Overviewdashboard/></Adminprivate>}/>

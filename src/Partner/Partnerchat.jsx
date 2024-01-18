@@ -4,6 +4,7 @@ import Partnernav from "./Common/Partnernav";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getbuyer_api } from "../Api/Partnerapi";
+import defaultImage from "/src/assets/images/profile.jpg";
 
 function Partnerchat() {
   const partner_id = useSelector((state) => state.PartnerReducer.partner);
@@ -68,13 +69,23 @@ function Partnerchat() {
                             }
                           >
                             <div className="flex items-center">
+                            {data.buyer_image ? (
                               <img
                                 className="rounded-full items-start flex-shrink-0 mr-3"
-                                src={`http://localhost:8000${data.buyer_image}`}
+                                src={data.buyer_image}
+                                alt="Image"
                                 width="32"
                                 height="32"
-                                alt={data.buyer_image}
                               />
+                            ) : (
+                              <img
+                                className="rounded-full items-start flex-shrink-0 mr-3"
+                                src={defaultImage}
+                                alt="Default Image"
+                                width="32"
+                                height="32"
+                              />
+                            )}
                               <div>
                                 <h4 className="text-sm font-semibold text-gray-900">
                                   {data.buyer_name}

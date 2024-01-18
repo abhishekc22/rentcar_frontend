@@ -14,8 +14,10 @@ function Partnersidebar() {
       <div className="w-2/4  md:w-1/5 lg:w-1/5 bg-black text-white">
         <div className="px-4 md:px-10 py-2 md:py-11">
           <p className="inline-block text-2xl md:text-1xl  text-gray-600  lg:text-2xl">
+          <Link to="/partner/dashboard">
             <FontAwesomeIcon icon={faHome} />
             Dashboard
+            </Link>
           </p>
         </div>
         <div className="px-4 md:px-10 py-4 md:py-11">
