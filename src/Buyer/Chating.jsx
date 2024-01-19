@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-import axios from "../Api/Axiosinstance";
+import axios from "../Api/axiosinstance";
 import { Link } from "react-router-dom";
 
 function Chating() {
