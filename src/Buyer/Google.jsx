@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { googleapi } from '../Api/Userapi';
 import { useDispatch } from 'react-redux';
-import { userlogin } from "../Reduxstore/slice/Userslice";
+import { userlogin } from "../Reduxstore/Slice/Userslice";
 
 
 function Google() {
