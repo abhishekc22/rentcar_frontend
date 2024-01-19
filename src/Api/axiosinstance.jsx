@@ -2,7 +2,7 @@ import axios from 'axios'
 import { jwtDecode } from "jwt-decode";
 
 
-const baseURL  = 'http://localhost:8000';
+const baseURL  = 'https://carway.vintiq.shop/';
 
 const axiosInstance = axios.create({
     baseURL,
