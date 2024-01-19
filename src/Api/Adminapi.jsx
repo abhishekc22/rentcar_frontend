@@ -1,4 +1,4 @@
-import axios from "./Axiosinstance";
+import axios from "./axiosinstance";
 
 export const adminloginapi = async (adminlogindata) => {
   console.log("kloooooo");

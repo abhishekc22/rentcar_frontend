@@ -1,5 +1,5 @@
 import { Await } from "react-router-dom";
-import axios from "./Axiosinstance";
+import axios from "./axiosinstance";
 
 export const userSignupApi = async (signupdata) =>{
     console.log(signupdata); 
