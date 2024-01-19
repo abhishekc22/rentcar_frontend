@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./BuyerWallet.css"; // Assuming you save your CSS in a file named BuyerWallet.css
+import "./Buyerwallet.css"; // Assuming you save your CSS in a file named BuyerWallet.css
 import Buyernav from "./Common/Buyernav";
 import { useSelector } from "react-redux";
 import { buyer_walletapi } from "../Api/Userapi";
