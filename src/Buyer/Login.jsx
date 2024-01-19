@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { userloginapi } from "../Api/Userapi";
 import { useDispatch } from "react-redux";
-import { userlogin } from "../Reduxstore/slice/Userslice";
+import { userlogin } from "../Reduxstore/Slice/Userslice";
 import { useState } from "react";
 import Loading from "../Main/Loading";
 import { loginSchema } from "./Validation/Userlogin";
