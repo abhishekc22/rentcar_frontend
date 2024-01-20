@@ -25,7 +25,7 @@ function Partnersignup() {
     onSubmit,
   });
 
-  async function onSubmit(){
+  async function  onSubmit(){
   
     try{
       console.log("onsublmitinte ullil",{...values});
