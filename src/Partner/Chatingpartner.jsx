@@ -19,7 +19,7 @@ function Chatingpartner() {
   const lastMessageRef = useRef(null);
   const { buyerid, buyername } = state || {};
 
-  const WsUrl = "ws://localhost:8000";
+  const WsUrl = import.meta.env.VITE_APP_WSURL
 
   const setUpChat = () => {
     if (clientstate) {

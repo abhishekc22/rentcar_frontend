@@ -20,7 +20,7 @@ function Chating() {
 
   const messageRef = useRef();
 
-  const WsUrl = "ws://localhost:8000";
+  const WsUrl = import.meta.env.VITE_APP_WSURL;
 
   const setUpChat = () => {
     if (clientstate) {
