@@ -7,7 +7,7 @@ const useGoogleMapApi = () => {
   const libraries = useMemo(() => ['places'], []);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const { isLoaded: scriptLoaded, loadError } = useJsApiLoader({
+  const { isLoaded: scriptLoaded, loadError }  = useJsApiLoader({
     googleMapsApiKey: api_key,
     libraries: libraries,
   });

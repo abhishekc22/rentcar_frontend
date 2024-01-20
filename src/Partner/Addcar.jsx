@@ -90,7 +90,7 @@ function Addcar() {
         componentRestrictions: { country: "IN" },
         types: ["(cities)"],
       }
-    );
+    ); 
 
     autocomplete.addListener("place_changed", () => {
       const place = autocomplete.getPlace();
