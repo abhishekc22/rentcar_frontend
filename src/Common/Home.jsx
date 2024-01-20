@@ -8,7 +8,7 @@ function Home() {
       <Header />
       <div
         className="hero min-h-screen"
-        style={{ backgroundImage: "https://res.cloudinary.com/dhbzojgfp/image/upload/v1705763520/logo_car_hq3iro.jpg" }}
+        style={{ backgroundImage: "url(https://res.cloudinary.com/dhbzojgfp/image/upload/v1705763520/logo_car_hq3iro.jpg)" }}
       >
         <div className="hero-overlay bg-opacity-60"></div>
         <div className="hero-content text-center text-neutral-content">
