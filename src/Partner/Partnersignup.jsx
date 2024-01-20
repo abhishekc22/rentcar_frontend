@@ -54,13 +54,13 @@ function Partnersignup() {
  </div>
 </div>
 ) :( 
-     <div className="hero min-h-screen" style={{ backgroundImage: "url('/src/assets/images/partnerlogin2.jpg')" }}>
+     <div className="hero min-h-screen" style={{ backgroundImage: "url(https://res.cloudinary.com/dhbzojgfp/image/upload/v1705763714/partnerlogin2_pkwrvn.jpg)" }}>
   <div className="hero-content flex-col lg:flex-row-reverse">
     <div className="text-center lg:text-left">
       <h1 className="text-5xl font-bold text-white">Signup now!</h1>
       <p className="py-6 text-white">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
     </div>
-    <div className="card shrink-0 w-full max-w-sm shadow-2xl" style={{ backgroundImage: "url('/src/assets/images/login7.jpeg')" }}>
+    <div className="card shrink-0 w-full max-w-sm shadow-2xl" style={{ backgroundImage: "url(https://res.cloudinary.com/dhbzojgfp/image/upload/v1705763712/login7_cmxxm8.jpg)" }}>
       <form className="card-body" onSubmit={handleSubmit}>
       <div className="form-control">
           <label className="label">

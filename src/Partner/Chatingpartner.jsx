@@ -103,7 +103,7 @@ function Chatingpartner() {
             <div className="flex flex-row items-center justify-between h-12 w-full">
               <Link to="/partner/partnerchat">
                 <img
-                  src="/src/assets/images/back.jpg"
+                  src="https://res.cloudinary.com/dhbzojgfp/image/upload/v1705763710/back_fgzrxb.jpg"
                   alt="Back"
                   className="w-26 h-20"
                 />

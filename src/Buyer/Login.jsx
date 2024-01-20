@@ -63,7 +63,7 @@ function Login() {
       ) : (
         <div
           className="hero min-h-screen "
-          style={{ backgroundImage: "url('/src/assets/images/login2.png')" }}
+          style={{ backgroundImage: "url(https://res.cloudinary.com/dhbzojgfp/image/upload/v1705763711/login2_e674xt.png)" }}
         >
           <div className="hero-content flex-col lg:flex-row-reverse">
             <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-silver">

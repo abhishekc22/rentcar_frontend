@@ -65,7 +65,7 @@ function PartnerLogin() {
  </div>
 </div>
 ) :(   
-    <div className="hero min-h-screen " style={{ backgroundImage: "url('/src/assets/images/partner5.jpg')" }}>
+    <div className="hero min-h-screen " style={{ backgroundImage: "url(https://res.cloudinary.com/dhbzojgfp/image/upload/v1705775295/car46_gfyudr.jpg)" }}>
   <div className="hero-content flex-col lg:flex-row-reverse">
     <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-silver">
       <form className="card-body"onSubmit={handleSubmit}>

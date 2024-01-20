@@ -121,7 +121,7 @@ function Buyernav() {
         <div className="flex items-center">
           <Link to="/buyer/buyerchat">
             <img
-              src="/src/assets/images/chat.png"
+              src="https://res.cloudinary.com/dhbzojgfp/image/upload/v1705763712/chat_nfibk6.png"
               alt="Chat Logo"
               className="w-10 h-11 mr-28 py-1 mt-2"
             />
@@ -134,7 +134,7 @@ function Buyernav() {
             <div className="w-10 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
-                src="/src/assets/images/logo.png"
+                src="https://res.cloudinary.com/dhbzojgfp/image/upload/v1705763713/logo_g26wxe.png"
               />
             </div>
           </label>

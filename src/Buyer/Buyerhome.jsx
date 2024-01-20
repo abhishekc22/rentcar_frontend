@@ -76,7 +76,7 @@ export default function Buyerhome() {
                 className="hero h-48 md:h-64 lg:h-96 bg-cover bg-center"
                 style={{
                   backgroundImage:
-                    "url('/src/assets/images/partnerlogin2.jpg')",
+                    "url(https://res.cloudinary.com/dhbzojgfp/image/upload/v1705763714/partnerlogin2_pkwrvn.jpg)",
                 }}
               ></div>
             </div>

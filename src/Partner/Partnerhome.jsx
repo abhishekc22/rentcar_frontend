@@ -17,7 +17,7 @@ function Partnerhome() {
       ) : (
     <div
           className="hero h-full md:h-64 lg:h-screen bg-cover bg-center"
-          style={{ backgroundImage: "url('/src/assets/images/userhome1.jpg')" }}
+          style={{ backgroundImage: "url(https://res.cloudinary.com/dhbzojgfp/image/upload/v1705763716/userhome1_rqmzro.jpg)" }}
         >
     </div>)}
 
