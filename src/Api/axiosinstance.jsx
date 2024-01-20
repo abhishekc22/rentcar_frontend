@@ -4,6 +4,8 @@ import { jwtDecode } from "jwt-decode";
 
 const baseURL  = import.meta.env.VITE_APP_BASE_URL
 
+console.log("baseUrl", baseURL)
+
 
 const axiosInstance = axios.create({
     baseURL,
