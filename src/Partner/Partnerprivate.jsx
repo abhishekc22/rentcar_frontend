@@ -9,4 +9,4 @@ function Partnerprivate(props) {
     }
 }
 
-export default Partnerprivate
+export default   Partnerprivate
