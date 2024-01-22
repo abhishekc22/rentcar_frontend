@@ -13,6 +13,7 @@ function Bookindetails() {
 
   const [booked, setBooked] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [render,setRender]=useState(false)
   const [selectedBooking, setSelectedBooking] = useState(null);
 
   useEffect(() => {
@@ -25,13 +26,18 @@ function Bookindetails() {
         console.error("Error fetching booking details: ", error);
         setLoading(false);
       });
-  }, [user_id]);
+  }, [user_id,render]);
 
   const handleCancel = async (bookingId) => {
     try {
       const res = await cancelapi(bookingId);
 
       if (res.status === 200) {
+        if (render===true){
+          setRender(false);
+        }else{
+          setRender(true)
+        }
         toast.success("You have canceled the order successfully");
       } else {
         toast.error("Server error");

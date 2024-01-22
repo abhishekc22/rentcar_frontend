@@ -10,12 +10,18 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
+const extractPageNumberFromUrl = (url) => {
+  const match = url.match(/[\?&]page=(\d+)/);
+  return match ? parseInt(match[1], 10) : 1;
+};
+
 function Partnerbooking() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState([]);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [again, setAgain] = useState(null);
+  const [pagination, setPagination] = useState(null);
   const [newStatus, setNewStatus] = useState("");
   const partner_id = useSelector((state) => state.PartnerReducer.partner);
 
@@ -23,12 +29,16 @@ function Partnerbooking() {
     fetchData();
   }, [partner_id]);
 
-  const fetchData = () => {
+  const fetchData = (url) => {
     setLoading(true);
-    partner_bookingapi(partner_id)
+    partner_bookingapi(partner_id, url)
       .then((res) => {
-        setDetails(res.data);
-        console.log(res.data, "yes");
+        setDetails(res.data.results);
+        setPagination({
+          count: res.data.count,
+          next: res.data.next,
+          previous: res.data.previous,
+        });
         setLoading(false);
       })
       .catch((error) => {
@@ -79,6 +89,21 @@ function Partnerbooking() {
     }
   };
 
+  const handlePageChange = async (url) => {
+    try {
+      const pageNumber = extractPageNumberFromUrl(url);
+
+      if (!isNaN(pageNumber) && pageNumber > 0) {
+        const apiUrl = { page: pageNumber }; // Correct way to construct the object
+        await fetchData(apiUrl);
+      } else {
+        console.error("Invalid page number:", pageNumber);
+      }
+    } catch (error) {
+      console.error("Error while fetching the next page:", error);
+    }
+  };
+
   return (
     <>
       <Partnernav />
@@ -97,10 +122,10 @@ function Partnerbooking() {
                 // Render details for the selected booking
                 <div className="w-1/2 bg-black py-10 px-10 ml-20">
                   <h3 className="font-semibold text-2xl text-white">
-                   BuyerName: {again.buyer.user.username}
+                    BuyerName: {again.buyer.user.username}
                   </h3>
                   <h3 className="font-semibold text-2xl text-white">
-                   Buyer number: {again.buyer.user.phone_number}
+                    Buyer number: {again.buyer.user.phone_number}
                   </h3>
                   <img
                     src={again.buyer.buyer_image}
@@ -112,12 +137,21 @@ function Partnerbooking() {
                     alt={again.car.carname}
                     className="w-28 mt-4 mb-4"
                   />
-                  
-                  <p className="text-2xl text-white"> BuyerName: {again.buyer.user.username}</p>
-                 
-                  <p className="text-2xl text-white">booked carprice: {again.car.price}</p>
-                  <p className="text-2xl text-white">Engine Type: {again.car.enginetype}</p>
-                  <p className="text-2xl text-white">Car Type: {again.car.car_type}</p>
+
+                  <p className="text-2xl text-white">
+                    {" "}
+                    BuyerName: {again.buyer.user.username}
+                  </p>
+
+                  <p className="text-2xl text-white">
+                    booked carprice: {again.car.price}
+                  </p>
+                  <p className="text-2xl text-white">
+                    Engine Type: {again.car.enginetype}
+                  </p>
+                  <p className="text-2xl text-white">
+                    Car Type: {again.car.car_type}
+                  </p>
 
                   {/* Close button to go back to the table view */}
                   <button
@@ -144,12 +178,14 @@ function Partnerbooking() {
                     <table className="table-auto w-full bg-transparent border-collapse">
                       <thead>
                         <tr className="bg-black text-white">
-                        <th className="py-2 px-4 text-left">id</th>
+                          <th className="py-2 px-4 text-left">id</th>
                           <th className="py-2 px-4 text-left">pickupdate</th>
                           <th className="py-2 px-4 text-left">returndate</th>
                           <th className="py-2 px-4 text-left">status</th>
                           <th className="py-2 px-4 text-left">total_amount</th>
-                          <th className="py-2 px-4 text-left">update status </th>
+                          <th className="py-2 px-4 text-left">
+                            update status{" "}
+                          </th>
                           <th className="py-2 px-4 text-left">Details</th>
                         </tr>
                       </thead>
@@ -161,7 +197,7 @@ function Partnerbooking() {
                               index % 2 === 0 ? "bg-blue-100 text-black" : ""
                             }
                           >
-                             <td className="py-2 px-4">{data.id}</td>
+                            <td className="py-2 px-4">{data.id}</td>
                             <td className="py-2 px-4">{data.pickupdate}</td>
                             <td className="py-2 px-4">{data.returndate}</td>
 
@@ -175,7 +211,9 @@ function Partnerbooking() {
 
                             <td className="py-2 px-4">{data.total_amount}</td>
                             <td className="py-2 px-4">
-                              {["completed", "canceled"].includes(data.status) ? (
+                              {["completed", "canceled"].includes(
+                                data.status
+                              ) ? (
                                 <button
                                   className="bg-black opacity-50 cursor-not-allowed text-white py-2 px-4 rounded-full"
                                   disabled
@@ -207,7 +245,10 @@ function Partnerbooking() {
                                 onClick={() => handleDetails(data.id)}
                                 className="bg-black hover:bg-gray-500 text-white py-2 px-4 rounded-full transition duration-300 ease-in-out"
                               >
-                                <FontAwesomeIcon icon={faEye} className="mr-2" />
+                                <FontAwesomeIcon
+                                  icon={faEye}
+                                  className="mr-2"
+                                />
                                 Details
                               </button>
                             </td>
@@ -217,6 +258,34 @@ function Partnerbooking() {
                     </table>
                   </div>
                 </div>
+              )}
+            </div>
+            <div className="w-full mt-4 flex justify-center">
+              {pagination && (
+                <nav className="block">
+                  <ul className="flex pl-0 rounded list-none flex-wrap">
+                    {pagination.previous && (
+                      <li className="relative inline-block">
+                        <button
+                          onClick={() => handlePageChange(pagination.previous)}
+                          className="relative block py-2 px-3 leading-tight bg-black border border-gray-800 text-white font-bold border-r-0 ml-0 rounded-l hover:bg-green-500"
+                        >
+                          Previous
+                        </button>
+                      </li>
+                    )}
+                    {pagination.next && (
+                      <li className="relative inline-block">
+                        <button
+                          onClick={() => handlePageChange(pagination.next)}
+                          className="relative block py-2 px-3 leading-tight bg-black border border-gray-800 text-white border-l-0 rounded-r hover:bg-red-800"
+                        >
+                          Next
+                        </button>
+                      </li>
+                    )}
+                  </ul>
+                </nav>
               )}
             </div>
           </section>

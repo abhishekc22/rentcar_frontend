@@ -44,20 +44,23 @@ export const partnerprofileput = async (formData, partner_id) => {
     return data ;
 }
 
-export const partner_carapi = async (partner_id)=>{
+export const partner_carapi = async (partner_id,params)=>{
     console.log(partner_id,'------18------')
-    const  data =   await axios.get(`partnerside/partnercar/${partner_id}`)
+    const  data =   await axios.get(`partnerside/partnercar/${partner_id}`,{
+      params: params, 
+    });
     console.log(data,'---------------------------20')
     return data ;
 }
 
-export const partner_bookingapi=async(partner_id)=>{
-    console.log(partner_id,'=================================')
-    const data= await axios.get(`partnerside/partnerbookings/${partner_id}`)
-    console.log(data,'===============*============')
-    return data
-}
-
+export const partner_bookingapi = async (partner_id, params) => {
+    console.log(partner_id,params, '=================================');
+    const data = await axios.get(`partnerside/partnerbookings/${partner_id}`, {
+      params: params, // Pass params as an object
+    });
+    console.log(data, '===============*============');
+    return data;
+  };
 
 export const getbuyer_api=async(partnerid)=>{
     console.log(partnerid,'+++++++++++++++')
@@ -86,3 +89,12 @@ export const cardeleteapi = async (deleteid) => {
     console.log(data, '**************');
     return data;
 };
+
+
+export const partner_dashboard= async (partner_id)=>{
+  console.log(partner_id,'555555555555')
+  const  data= await axios.get(`partnerside/partnerdashboard/${partner_id}`)
+  console.log(data,'8888888')
+  return data
+
+}

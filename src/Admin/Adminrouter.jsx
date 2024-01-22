@@ -9,6 +9,7 @@ import Adminprivate from './pages/Adminprivate';
 import Carlist from './pages/Carlist';
 import Adminibooklist from './pages/Adminibooklist';
 import Adminpublic from './pages/Adminpublic';
+import Drfault from '../Common/Drfault';
 
 
 function Adminrouter() {
@@ -22,6 +23,7 @@ function Adminrouter() {
         <Route path='dashboard'element={<Adminprivate><Admindashboard/></Adminprivate>}/>
         <Route path='carlist'element={<Adminprivate><Carlist/></Adminprivate>}/> 
         <Route path='booklist'element={<Adminprivate><Adminibooklist/></Adminprivate>}/>
+        <Route path='*' element={<Drfault/>} />
     </Routes>
 
   )

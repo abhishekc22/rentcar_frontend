@@ -15,6 +15,7 @@ import Chatingpartner from './Chatingpartner';
 import Dashboard from './Common/Dashboard';
 import Partnerchart from './Common/Partnerchart';
 import Partnerpublic from './Partnerpublic';
+import Drfault from '../Common/Drfault';
 
 
 function Partnerrouter() {
@@ -36,6 +37,7 @@ function Partnerrouter() {
     <Route path='chating'element={<Partnerprivate><Chatingpartner/></Partnerprivate>}/>
     <Route path='dashboard'element={<Partnerprivate><Dashboard/></Partnerprivate>}/>
     <Route path='chart'element={<Partnerprivate><Partnerchart/></Partnerprivate>}/>
+    <Route path='*' element={<Drfault/>} />
 
   </Routes>
   )

@@ -15,6 +15,8 @@ import Buyerchat from './Buyerchat';
 import Chating from './Chating';
 import Buyerwallet from './Buyerwallet';
 import Buyerpublic from './Buyerpublic';
+import Drfault from '../Common/Drfault';
+
 
 
 
@@ -39,6 +41,7 @@ function Buyerrouter() {
         <Route path='/buyerchat'element={<Buyerprivate><Buyerchat/></Buyerprivate>}/>
         <Route path='/chating' element={<Buyerprivate><Chating/></Buyerprivate>}/>
         <Route path='/wallet'element= {<Buyerprivate><Buyerwallet/></Buyerprivate>}/>
+        <Route path='*' element={<Drfault/>} />
       </Routes>
     </>
     

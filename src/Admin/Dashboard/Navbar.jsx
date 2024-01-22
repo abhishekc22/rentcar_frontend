@@ -51,7 +51,7 @@ function Navbar() {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li
-              className="text-black px-12 cursor-pointer bg-black"
+              className="text-black px-12 cursor-pointer"
               onClick={handleLogout}
             >
               Logout

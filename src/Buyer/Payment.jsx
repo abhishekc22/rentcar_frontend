@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { boookingapi } from "../Api/Userapi";
 import { Link } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 function Payment() {
   const get_payment_details = async () => {
@@ -21,14 +23,13 @@ function Payment() {
           car_location,
           buyer_name
         );
-        console.log(data, "--------");
         if (res.status === 201) {
           toast.success(" payment successfull");
         } else {
           toast.error("booking cancelled");
         }
       } catch (error) {
-        toast.error("date is  alredy booked");
+       
       }
     }
   };

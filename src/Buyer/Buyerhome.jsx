@@ -8,10 +8,12 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import useGoogleMapApi from "../Map/Map";
 import { Autocomplete, Data } from "@react-google-maps/api";
+import { filterdataapi } from "../Api/Userapi";
 
 export default function Buyerhome() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState([]);
+  const [filterdata, setFilterdata] = useState(null);
   const { isLoaded } = useGoogleMapApi();
   const navigate = useNavigate();
   console.log(user, "*****************");
@@ -62,6 +64,30 @@ export default function Buyerhome() {
   function change_page(id) {
     setCuurentpage(id);
   }
+
+  const handleLocationSearch = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+    const query = e.target.q.value;
+
+    try {
+      setLoading(true);
+      const res = await filterdataapi({ location: query });
+      setLoading(false);
+
+      if (res.status === 200) {
+        setFilterdata(res?.data);
+        console.log(res.data, "+++++++++++++++++++++");
+      } else {
+        toast.error("Loading error", { theme: "dark" });
+      }
+    } catch (error) {
+      setLoading(false);
+      toast.error("Server error");
+    }
+
+    // Clear the search input after submission
+    e.target.q.value = "";
+  };
 
   return (
     <>
@@ -122,7 +148,11 @@ export default function Buyerhome() {
                 </ul>
               </nav>
 
-              <form method="GET" className="w-full md:w-1/2 lg:w-2/3 mx-auto">
+              <form
+                onSubmit={handleLocationSearch}
+                method="GET"
+                className="w-full md:w-1/2 lg:w-2/3 mx-auto mt-2"
+              >
                 <div className="relative text-gray-600 focus-within:text-gray-400">
                   <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                     <button
@@ -142,62 +172,81 @@ export default function Buyerhome() {
                       </svg>
                     </button>
                   </span>
-                  <input
-                    type="search"
-                    name="q"
-                    className="w-full py-2 text-sm bg-gray-900 rounded-md pl-10 focus:bg-white border border-white focus:text-gray-900"
-                    placeholder="Search..."
-                    autoComplete="off"
-                  />
+                  {isLoaded && (
+                    <Autocomplete>
+                      <input
+                        type="search"
+                        name="q"
+                        className="w-full py-2 text-sm bg-gray-900 rounded-md pl-10 focus:bg-white border border-white focus:text-gray-900"
+                        placeholder="Search..."
+                        autoComplete="off"
+                      />
+                    </Autocomplete>
+                  )}
+                  <button
+                    type="submit"
+                    className="absolute right-0 top-0 px-3 py-2 text-sm bg-gray-900 rounded-md border border-white text-white focus:outline-none"
+                  >
+                    Search
+                  </button>
                 </div>
               </form>
-
-              <div className="md-w-screen dropdown dropdown-hover">
-                <div
-                  tabIndex={0}
-                  role="button"
-                  className="btn bg-gray-900 w-32 md-w-full lg:w-full text-white border border-white rounded-e-none"
-                >
-                  Filter
-                </div>
-                <ul
-                  tabIndex={0}
-                  className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-                >
-                  <li>
-                    <a>Item 1</a>
-                  </li>
-                  <li>
-                    <a>Item 2</a>
-                  </li>
-                </ul>
-              </div>
             </div>
 
             {/* car card section */}
             <section className="mx-auto">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 px-4 md:px-10 lg:px-2 h-full bg-black">
-                {records.map((data) => (
-                  <div
-                    key={data.id}
-                    className="relative h-full rounded-xl bg-gray-900"
-                  >
-                    <img
-                      onClick={() => {
-                        navigate("/buyer/singlepage", {
-                          state: { car_id: data.id },
-                        });
-                      }}
-                      className="border-3 w-full mt-2 border-gray-800 border-4 rounded-xl transition-transform transform hover:scale-105 active:scale-105"
-                      src={data.carimage1}
-                      alt="car"
-                    />
-                    <div className="text-white text-sm md:text-base lg:text-base w-full p-2 border-t border-gray-800 rounded-b bg-gray-900 absolute bottom-0">
-                      <div className="font-bold"> Carname: {data.carname}</div>
-                      <div> Price: ${data.price}</div>
-                    </div>
-                  </div>
-                ))}
+                {filterdata
+                  ? // If filterdata is not null, render filtered data
+                    filterdata.map((data) => (
+                      <div
+                        key={data.id}
+                        className="relative h-full rounded-xl bg-gray-900"
+                      >
+                        <img
+                          onClick={() => {
+                            navigate("/buyer/singlepage", {
+                              state: { car_id: data.id },
+                            });
+                          }}
+                          className="border-3 w-full mt-2 border-gray-800 border-4 rounded-xl transition-transform transform hover:scale-105 active:scale-105"
+                          src={data.carimage1}
+                          alt="car"
+                        />
+                        <div className="text-white text-sm md:text-base lg:text-base w-full p-2 border-t border-gray-800 rounded-b bg-gray-900 absolute bottom-0">
+                          <div className="font-bold">
+                            {" "}
+                            Carname: {data.carname}
+                          </div>
+                          <div> Price: ${data.price}</div>
+                        </div>
+                      </div>
+                    ))
+                  : // If filterdata is null, render default data
+                    records.map((data) => (
+                      <div
+                        key={data.id}
+                        className="relative h-full rounded-xl bg-gray-900"
+                      >
+                        <img
+                          onClick={() => {
+                            navigate("/buyer/singlepage", {
+                              state: { car_id: data.id },
+                            });
+                          }}
+                          className="border-3 w-full mt-2 border-gray-800 border-4 rounded-xl transition-transform transform hover:scale-105 active:scale-105"
+                          src={data.carimage1}
+                          alt="car"
+                        />
+                        <div className="text-white text-sm md:text-base lg:text-base w-full p-2 border-t border-gray-800 rounded-b bg-gray-900 absolute bottom-0">
+                          <div className="font-bold">
+                            {" "}
+                            Carname: {data.carname}
+                          </div>
+                          <div> Price: ${data.price}</div>
+                        </div>
+                      </div>
+                    ))}
               </div>
             </section>
           </div>

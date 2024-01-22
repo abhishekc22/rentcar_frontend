@@ -6,6 +6,7 @@ import Partnerrouter from './Partner/Partnerrouter';
 import Adminrouter from './Admin/Adminrouter';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Drfault from './Common/Drfault';
 
 
 function App() {
@@ -20,7 +21,8 @@ function App() {
         <Route path='/' element={<Home/>} />
         <Route path='/buyer/*' element={<Buyerrouter/>} />
         <Route path='/partner/*' element={<Partnerrouter/>} />
-        
+    
+      <Route path='*' element={<Drfault/>} />
       </Routes>
     </Router>
   

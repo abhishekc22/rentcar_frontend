@@ -99,3 +99,10 @@ export const buyer_walletapi=async(buyerid)=>{
     console.log(data,'-----------------------------')
     return data
 }
+
+export const filterdataapi = async (query) => {
+    console.log(query,'5555555555555555555')
+    const data = await axios.get(`/buyerside/buyerfilter/`, { params: query });
+    console.log(data,'566666')
+    return data;
+}
