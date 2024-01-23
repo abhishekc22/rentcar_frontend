@@ -63,12 +63,12 @@ function Payment() {
             {/* Call and Chat logos section */}
             <div class="flex justify-center items-center my-4">
               <img
-                src="/src/assets/images/call.jpg"
+                src="https://res.cloudinary.com/dhbzojgfp/image/upload/v1705763709/call_jjbaqi.jpg"
                 alt="Call Logo"
                 class="mr-4 w-10 h-11"
               />
               <img
-                src="/src/assets/images/chat.png"
+                src="https://res.cloudinary.com/dhbzojgfp/image/upload/v1705763712/chat_nfibk6.png"
                 alt="Chat Logo"
                 class="w-10 h-11"
               />

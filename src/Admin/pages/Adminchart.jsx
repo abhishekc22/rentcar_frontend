@@ -8,7 +8,7 @@ const Adminchart = ({ monthlySalesData }) => {
     return <div>Loading...</div>;
   }
 
-  const monthNames = ['December', 'January', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const monthNames = ['January', 'februvary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
   const data = monthlySalesData.map((monthData, index) => ({
     name: monthNames[index], 

@@ -87,13 +87,13 @@ function Bookindetails() {
                     Location: {selectedBooking.car.location}
                   </p>
                   <p className="text-2xl text-white">
-                    Partner: {selectedBooking.car.price}
+                    price: {selectedBooking.car.price}
                   </p>
                   <p className="text-2xl text-white">
-                    Partner: {selectedBooking.car.enginetype}
+                    engine type: {selectedBooking.car.enginetype}
                   </p>
                   <p className="text-2xl text-white">
-                    Partner: {selectedBooking.car.car_type}
+                    car type: {selectedBooking.car.car_type}
                   </p>
 
                   {/* Close button to go back to the table view */}

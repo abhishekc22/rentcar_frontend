@@ -15,17 +15,20 @@ function Google() {
 
   
   const  handleLogin= async (response)=>{
+    console.log()
     const user = jwtDecode(response?.credential)
     try{
       const res=await googleapi({'email':user.email});
       
-        const { access, buyer_id } = res.data;
+        const { access, buyer_id,buyername} = res.data;
         localStorage.setItem("userToken", access);
         console.log(access, buyer_id)
         dispatch(
           userlogin({
             token: access,
             user: buyer_id,
+            buyername:buyername,
+
           })
         );
         toast.success(`Welcome ${res?.data?.buyername}`);

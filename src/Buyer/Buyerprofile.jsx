@@ -112,10 +112,16 @@ function Buyerprofile() {
               <div className="w-full lg:w-10/12 flex flex-col lg:flex-row border-2 bg-black rounded-xl mx-auto shadow-lg overflow-hidden">
                 <div className="w-full lg:w-2/4 flex items-center justify-center bg-no-repeat bg-cover bg-center">
                   <label htmlFor="fileInput" className="cursor-pointer">
-                    <img
-                      src={userdetail?.buyer_image }
-                      alt="User Profile"
-                    />
+                    {userdetail?.buyer_image ? (
+                      <img src={userdetail?.buyer_image} alt="User Profile" />
+                    ) : (
+                      <img
+                        src=
+                          "https://res.cloudinary.com/dhbzojgfp/image/upload/v1705763714/profile_jvvj7h.jpg"
+                        
+                        alt="User Profile"
+                      />
+                    )}
                   </label>
                   <input
                     type="file"

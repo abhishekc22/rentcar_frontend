@@ -13,7 +13,7 @@ export const userloginapi=async(logindata,)=>{
 }
 export const  googleapi=async (d )=>{
     const data=await axios.post('/api/buyer_google/',d)
-    console.log(data,'---------------------------------------------')
+    console.log(data,'-------------------------google--------------------')
     return data
 }
 

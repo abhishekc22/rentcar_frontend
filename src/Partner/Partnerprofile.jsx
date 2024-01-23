@@ -108,22 +108,19 @@ function Partnerprofile() {
               <div className="w-full lg:w-10/12 flex flex-col lg:flex-row bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
                 <div className="w-full lg:w-2/4 flex items-center justify-center bg-no-repeat bg-cover bg-center">
                   <label htmlFor="fileInput" className="cursor-pointer">
-                    {profiledata?. partner_image ?  (
+                    {profiledata?.partner_image ? (
                       <img
-                      src={
-                        profiledata?.partner_image 
-                      }
-                      alt="User Profile"
-                    />
-                    ):(
+                        src={profiledata?.partner_image}
+                        alt="User Profile"
+                      />
+                    ) : (
                       <img
-                      src={
-                        "/src/assets/images/profile.jpg"
-                      }
-                      alt="User Profile"
-                    />
+                        src={
+                          "https://res.cloudinary.com/dhbzojgfp/image/upload/v1705763714/profile_jvvj7h.jpg"
+                        }
+                        alt="User Profile"
+                      />
                     )}
-                    
                   </label>
                   <input
                     type="file"

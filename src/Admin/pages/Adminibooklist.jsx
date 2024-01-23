@@ -90,7 +90,7 @@ function Adminibooklist() {
                           src={
                             data?.buyer?.buyer_image
                               ? data.buyer.buyer_image
-                              : "/src/assets/images/profile.jpg"
+                              : "https://res.cloudinary.com/dhbzojgfp/image/upload/v1705763714/profile_jvvj7h.jpg"
                           }
                           alt="Buyer Image"
                           className="w-16 h-16 rounded-full mx-auto mb-2"
@@ -99,7 +99,7 @@ function Adminibooklist() {
                           src={
                             data.car.partner.partner_image
                               ? data.car.partner.partner_image
-                              : "/src/assets/images/profile.jpg"
+                              : "https://res.cloudinary.com/dhbzojgfp/image/upload/v1705763714/profile_jvvj7h.jpg"
                           }
                           alt="Partner Image"
                           className="w-16 h-16 rounded-full mx-auto mb-2"

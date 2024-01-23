@@ -46,7 +46,7 @@ function Checkout() {
         <div>
         <h1 className=" text-2xl">car document</h1>
         <img
-          src={carimage}
+          src={document}
           alt="Document"
           className="h-full w-82 max-w-md  border-white border-2"
         />
